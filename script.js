@@ -6,15 +6,12 @@ document.addEventListener('DOMContentLoaded', function() {
   const musicToggle = document.getElementById('musicToggle');
   const loveButton = document.getElementById('loveButton');
   const countElement = document.getElementById('count');
-  const sendWishBtn = document.getElementById('sendWish');
-  const wishText = document.getElementById('wishText');
-  const wishesDisplay = document.getElementById('wishesDisplay');
-  const lockScreen = document.getElementById('lockScreen')
+  const lockScreen = document.getElementById('lockScreen');
   const currentDateElement = document.getElementById('currentDate');
   const container = document.querySelector('.container');
   
   // 防止双击缩放
-  preventZoom()
+  preventZoom();
 
   // 初始化显示计数
   countElement.textContent = loveCount;
@@ -54,72 +51,48 @@ document.addEventListener('DOMContentLoaded', function() {
       mainHeart.classList.remove('love-pulse');
     }, 1000);
   });
-  
-  // 发送祝福
-  sendWishBtn.addEventListener('click', function() {
-    if (wishText.value.trim() !== '') {
-      sendWish(wishText.value);
-      wishText.value = '';
-    } else {
-      Swal.fire({
-        title: '祝福不能为空',
-        text: '请写下你对她的鼓励',
-        icon: 'warning',
-        confirmButtonText: '好的',
-        confirmButtonColor: '#e91e63',
-        showClass: {
-          popup: 'swal2-noanimation',
-          backdrop: 'swal2-noanimation'
-        },
-        hideClass: {
-          popup: '',
-          backdrop: ''
-        }
-      });
-    }
-  });
-  
+
   // 防止双击缩放
   function preventZoom() {
     // 禁用双指缩放
     document.addEventListener('gesturestart', function (e) {
       e.preventDefault()
-    })
+    });
 
     // 禁用双击缩放
     let lastTouchEnd = 0
     document.addEventListener('touchend', function (e) {
-      const now = Date.now()
+      const now = Date.now();
       if (now - lastTouchEnd <= 300) {
-        e.preventDefault()
+        e.preventDefault();
       }
       lastTouchEnd = now
-    }, false)
+    }, false);
 
     // 防止iOS double-tap-to-zoom
     document.addEventListener('touchstart', function (event) {
       if (event.touches.length > 1) {
-        event.preventDefault()
+        event.preventDefault();
       }
-    }, { passive: false })
+    }, { passive: false });
   }
 
   // 检查日期函数
   function checkDate() {
     const now = new Date()
-    const formattedDate = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日`
+    const formattedDate = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日`;
     currentDateElement.textContent = formattedDate;
 
     // 检查是否是5月20日
     const is520 = (now.getMonth() === 4 && now.getDate() === 20) // 月份从0开始，所以5月是4
 
     // 添加调试选项 - 在URL中添加?debug=1可以绕过日期检查（方便测试）
-    const urlParams = new URLSearchParams(window.location.search)
+    const urlParams = new URLSearchParams(window.location.search);
     const isDebug = urlParams.get('debug') === '1';
 
     if (is520 || isDebug) {
       // 如果是520或处于调试模式，显示页面内容
-      lockScreen.style.display = 'none'
+      lockScreen.style.display = 'none';
       container.classList.remove('hidden');
 
       // 如果是真正的520（非调试模式），展示特殊的欢迎信息
@@ -142,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
               popup: '',
               backdrop: ''
             }
-          })
+          });
         }, 800);
       }
 
@@ -150,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
       initPage();
     } else {
       // 如果不是520，隐藏页面内容
-      lockScreen.style.display = 'flex'
+      lockScreen.style.display = 'flex';
       container.classList.add('hidden');
     }
   }
@@ -162,9 +135,9 @@ document.addEventListener('DOMContentLoaded', function() {
       Swal.fire({
         title: '亲爱的宝贝!',
         text: '520快乐，祝你面试顺利！',
-        imageUrl: 'https://images.unsplash.com/photo-1494774157365-9e04c6720e47',
+        imageUrl: 'https://cloudshoping-1318477772.cos.ap-nanjing.myqcloud.com/Gemini_Generated_Image_se3iavse3iavse3i.jpg',
         imageWidth: 300,
-        imageHeight: 200,
+        imageHeight: 300,
         imageAlt: '欢迎图片',
         confirmButtonText: '谢谢你的祝福',
         confirmButtonColor: '#e91e63',
@@ -204,42 +177,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       });
     }, 1000);
-    
-    // 从本地缓存加载祝福
-    loadWishesFromStorage()
-
-    // 初始化一些随机的祝福展示（只有在没有缓存的祝福时才显示）
-    if (!localStorage.getItem('wishes') || JSON.parse(localStorage.getItem('wishes')).length === 0) {
-      const sampleWishes = [
-        '相信自己，你一定能成功！',
-        '你是最棒的，面试官一定会被你的才华折服',
-        '深呼吸，放松，展现最好的自己',
-        '无论结果如何，你永远是我心中的第一名'
-      ]
-
-      sampleWishes.forEach(wish => {
-        const wishCard = document.createElement('div')
-        wishCard.className = 'wish-card'
-        wishCard.textContent = wish
-        wishCard.style.transform = `rotate(${Math.random() * 10 - 5}deg)`
-        wishesDisplay.appendChild(wishCard)
-      });
-    }
-  }
-
-  // 从本地缓存加载祝福
-  function loadWishesFromStorage() {
-    const savedWishes = localStorage.getItem('wishes')
-    if (savedWishes) {
-      const wishes = JSON.parse(savedWishes)
-      wishes.forEach(wish => {
-        const wishCard = document.createElement('div')
-        wishCard.className = 'wish-card'
-        wishCard.textContent = wish
-        wishCard.style.transform = `rotate(${Math.random() * 10 - 5}deg)`
-        wishesDisplay.appendChild(wishCard)
-      })
-    }
   }
 
   // 创建爱心动画
@@ -299,60 +236,5 @@ document.addEventListener('DOMContentLoaded', function() {
         backdrop: ''
       }
     });
-  }
-  
-  // 发送祝福
-  function sendWish(wishContent) {
-    // 保存祝福到本地存储
-    saveWishToStorage(wishContent);
-
-    // 创建祝福卡片
-    const wishCard = document.createElement('div');
-    wishCard.className = 'wish-card';
-    wishCard.textContent = wishContent;
-    wishCard.style.transform = `rotate(${Math.random() * 10 - 5}deg)`;
-    wishCard.style.opacity = '0';
-    
-    wishesDisplay.prepend(wishCard);
-    
-    // 添加飘上来的动画效果
-    setTimeout(() => {
-      wishCard.style.transition = 'opacity 1s ease, transform 1s ease';
-      wishCard.style.opacity = '1';
-    }, 10);
-    
-    // 成功提示
-    Swal.fire({
-      position: 'center',
-      icon: 'success',
-      title: '祝福已送出',
-      text: '你的鼓励会给她力量',
-      showConfirmButton: false,
-      timer: 1500,
-      showClass: {
-        popup: 'swal2-noanimation',
-        backdrop: 'swal2-noanimation'
-      },
-      hideClass: {
-        popup: '',
-        backdrop: ''
-      }
-    });
-  }
-
-  // 保存祝福到本地存储
-  function saveWishToStorage(wishContent) {
-    let wishes = []
-    const savedWishes = localStorage.getItem('wishes')
-
-    if (savedWishes) {
-      wishes = JSON.parse(savedWishes)
-    }
-
-    // 将新的祝福添加到数组开头（与界面显示顺序一致）
-    wishes.unshift(wishContent)
-
-    // 保存到本地存储
-    localStorage.setItem('wishes', JSON.stringify(wishes))
   }
 }); 

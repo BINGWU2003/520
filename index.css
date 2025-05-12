@@ -353,73 +353,6 @@ body {
   background-color: #7b1fa2;
 }
 
-/* 愿望区域样式 */
-.wishes {
-  margin-bottom: 40px;
-}
-
-.wish-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-#wishText {
-  width: 100%;
-  max-width: 500px;
-  height: 80px;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #e1bee7;
-  font-family: 'ZCOOL XiaoWei', serif;
-  font-size: 1rem;
-  margin-bottom: 15px;
-  resize: none;
-}
-
-.wish-btn {
-  background-color: #8e24aa;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-size: 1rem;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-family: 'ZCOOL XiaoWei', serif;
-}
-
-.wish-btn:hover {
-  background-color: #6a1b9a;
-}
-
-.wishes-display {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 15px;
-}
-
-.wish-card {
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 15px;
-  border-radius: 10px;
-  width: 200px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-  position: relative;
-  animation: float 3s infinite alternate;
-}
-
-@keyframes float {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(-10px);
-  }
-}
-
 /* 页脚样式 */
 .footer {
   text-align: center;
@@ -524,7 +457,8 @@ body {
     font-size: 0.95rem;
   }
   
-  .love-btn, .music-btn, .wish-btn {
+    .love-btn,
+    .music-btn {
     padding: 10px 15px;
   }
         .lock-content {
