@@ -239,7 +239,42 @@ document.addEventListener('DOMContentLoaded', function() {
       // 如果不是520，隐藏页面内容
       lockScreen.style.display = 'flex';
       container.classList.add('hidden');
+
+      // 更新倒计时
+      updateCountdown()
+      // 开始倒计时定时器
+      setInterval(updateCountdown, 1000);
     }
+  }
+
+  // 倒计时更新函数
+  function updateCountdown() {
+    const now = new Date()
+    let targetDate
+
+    // 获取今年的5月20日
+    const thisYear = now.getFullYear()
+    targetDate = new Date(thisYear, 4, 20) // 月份从0开始，5月是4
+
+    // 如果今年的5月20日已经过去，则计算到明年的5月20日
+    if (now > targetDate) {
+      targetDate = new Date(thisYear + 1, 4, 20)
+    }
+
+    // 计算时间差（毫秒）
+    const diff = targetDate - now
+
+    // 计算剩余天数、小时、分钟和秒数
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24))
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000)
+
+    // 更新显示
+    document.getElementById('countdown-days').textContent = days.toString().padStart(2, '0')
+    document.getElementById('countdown-hours').textContent = hours.toString().padStart(2, '0')
+    document.getElementById('countdown-minutes').textContent = minutes.toString().padStart(2, '0')
+    document.getElementById('countdown-seconds').textContent = seconds.toString().padStart(2, '0')
   }
 
   // 初始化页面
