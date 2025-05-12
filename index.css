@@ -13,6 +13,73 @@ body {
   line-height: 1.6;
   min-height: 100vh;
   padding: 20px 0;
+  position: relative;
+  }
+  
+  /* 锁定页面样式 */
+  .lock-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #e57373, #ba68c8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .lock-content {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    max-width: 80%;
+    animation-duration: 1s;
+  }
+  
+  .lock-icon {
+    font-size: 5rem;
+    margin-bottom: 20px;
+    color: #9c27b0;
+  }
+  
+  .lock-content h2 {
+    color: #e91e63;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+  }
+  
+  .lock-content p {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    color: #333;
+  }
+  
+  .lock-date {
+    font-weight: bold;
+    margin: 25px 0;
+    padding: 10px;
+    background-color: rgba(233, 30, 99, 0.1);
+    border-radius: 10px;
+  }
+  
+  #currentDate {
+    color: #e91e63;
+    font-size: 1.2rem;
+  }
+  
+  .lock-message {
+    color: #9c27b0;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  
+  /* 隐藏主内容 */
+  .hidden {
+    display: none;
 }
 
 .container {
@@ -139,24 +206,6 @@ body {
 
 .wish-item p {
   font-size: 1.1rem;
-}
-
-.countdown {
-  text-align: center;
-  margin-top: 20px;
-  padding: 15px;
-  background-color: rgba(156, 39, 176, 0.1);
-  border-radius: 10px;
-}
-
-.countdown p {
-  font-size: 1.2rem;
-  color: #9c27b0;
-}
-
-#countdownTimer {
-  font-weight: bold;
-  color: #e91e63;
 }
 
 /* 交互区域样式 */
@@ -432,6 +481,17 @@ body {
     font-size: 1.5rem;
     margin-right: 10px;
   }
+.lock-content {
+  padding: 30px 20px;
+}
+
+.lock-icon {
+  font-size: 4rem;
+}
+
+.lock-content h2 {
+  font-size: 1.5rem;
+}
 }
 
 @media (max-width: 480px) {
@@ -454,4 +514,19 @@ body {
   .love-btn, .music-btn, .wish-btn {
     padding: 10px 15px;
   }
+.lock-content {
+  padding: 25px 15px;
+}
+
+.lock-icon {
+  font-size: 3.5rem;
+}
+
+.lock-content h2 {
+  font-size: 1.3rem;
+}
+
+.lock-content p {
+  font-size: 1rem;
+}
 }

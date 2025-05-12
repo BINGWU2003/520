@@ -9,21 +9,12 @@ document.addEventListener('DOMContentLoaded', function() {
   const sendWishBtn = document.getElementById('sendWish');
   const wishText = document.getElementById('wishText');
   const wishesDisplay = document.getElementById('wishesDisplay');
-  const countdownTimer = document.getElementById('countdownTimer');
+  const lockScreen = document.getElementById('lockScreen')
+  const currentDateElement = document.getElementById('currentDate')
+  const container = document.querySelector('.container');
   
-  // 设置面试日期（这里假设面试是在未来某一天）
-  const interviewDate = new Date();
-  interviewDate.setDate(interviewDate.getDate() + 3); // 假设面试在3天后
-  interviewDate.setHours(9, 0, 0); // 设置面试时间为上午9点
-  
-  // 更新倒计时
-  updateCountdown();
-  
-  // 每秒更新一次倒计时
-  setInterval(updateCountdown, 1000);
-  
-  // 初始化页面
-  initPage();
+  // 检查日期
+  checkDate();
   
   // 音乐播放控制
   musicToggle.addEventListener('click', function() {
@@ -72,6 +63,49 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   
+  // 检查日期函数
+  function checkDate() {
+    const now = new Date()
+    const formattedDate = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日`
+    currentDateElement.textContent = formattedDate
+
+    // 检查是否是5月20日
+    const is520 = (now.getMonth() === 4 && now.getDate() === 20) // 月份从0开始，所以5月是4
+
+    // 添加调试选项 - 在URL中添加?debug=1可以绕过日期检查（方便测试）
+    const urlParams = new URLSearchParams(window.location.search)
+    const isDebug = urlParams.get('debug') === '1'
+
+    if (is520 || isDebug) {
+      // 如果是520或处于调试模式，显示页面内容
+      lockScreen.style.display = 'none'
+      container.classList.remove('hidden')
+
+      // 如果是真正的520（非调试模式），展示特殊的欢迎信息
+      if (is520) {
+        setTimeout(() => {
+          Swal.fire({
+            title: '520快乐！',
+            html: '今天是特别的日子，<br>我想对你说：我爱你！',
+            icon: 'heart',
+            iconHtml: '❤️',
+            confirmButtonText: '我也爱你',
+            confirmButtonColor: '#e91e63',
+            background: 'rgba(255, 255, 255, 0.95)',
+            backdrop: `rgba(233, 30, 99, 0.4)`
+          })
+        }, 800)
+      }
+
+      // 初始化页面
+      initPage()
+    } else {
+      // 如果不是520，隐藏页面内容
+      lockScreen.style.display = 'flex'
+      container.classList.add('hidden')
+    }
+  }
+
   // 初始化页面
   function initPage() {
     // 欢迎弹窗
@@ -122,25 +156,7 @@ document.addEventListener('DOMContentLoaded', function() {
       wishesDisplay.appendChild(wishCard);
     });
   }
-  
-  // 倒计时函数
-  function updateCountdown() {
-    const now = new Date();
-    const diff = interviewDate - now;
-    
-    if (diff <= 0) {
-      countdownTimer.textContent = "面试时间已到！祝你好运！";
-      return;
-    }
-    
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-    
-    countdownTimer.textContent = `${days}天 ${hours}小时 ${minutes}分钟 ${seconds}秒`;
-  }
-  
+
   // 创建爱心动画
   function createHearts() {
     const container = document.querySelector('.container');
