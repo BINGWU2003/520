@@ -247,13 +247,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // 欢迎弹窗
     setTimeout(() => {
       Swal.fire({
-        title: '亲爱的宝贝!',
-        text: '520快乐，祝你面试顺利！',
+        title: '亲爱的周周!',
+        text: '520快乐，备课辛苦了！',
         imageUrl: 'https://cloudshoping-1318477772.cos.ap-nanjing.myqcloud.com/Gemini_Generated_Image_se3iavse3iavse3i.jpg',
         imageWidth: 300,
         imageHeight: 300,
         imageAlt: '欢迎图片',
-        confirmButtonText: '谢谢你的祝福',
+        confirmButtonText: '谢谢你的鼓励',
         confirmButtonColor: '#e91e63',
         showClass: {
           popup: 'swal2-noanimation',
@@ -267,7 +267,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (result.isConfirmed) {
           Swal.fire({
             title: '要来听周杰伦的《晴天》吗?',
-            text: '来点音乐放松一下心情怎么样?',
+            text: '听点音乐放松一下，减轻备课压力',
             icon: 'question',
             showCancelButton: true,
             confirmButtonText: '好啊!',
@@ -372,18 +372,19 @@ document.addEventListener('DOMContentLoaded', function() {
   // 显示鼓励消息
   function showEncourageMessage() {
     const messages = [
-      '你的能力和才华会让面试官眼前一亮',
-      '相信自己，面试只是展示你能力的舞台',
-      '深呼吸，放松，你能行的！',
-      '面试官会被你的魅力所折服',
-      '展现最真实的自己，成功就在前方',
-      '你的努力和准备不会白费，加油！'
+      '要有信心，相信自己，你是最棒的！',
+      '你课讲的超级好，加油！',
+      '备课辛苦的你，别忘了休息哦！',
+      '每一次的磨课都是进步',
+      '熬夜备课辛苦了，要多喝水',
+      '你的课件真的很棒，非常用心',
+      '你的努力和准备会有回报，加油！'
     ];
     
     const randomMessage = messages[Math.floor(Math.random() * messages.length)];
     
     Swal.fire({
-      title: '❤️ 面试加油 ❤️',
+      title: '❤️ 备课加油 ❤️',
       text: randomMessage,
       icon: 'success',
       confirmButtonText: '谢谢你',
