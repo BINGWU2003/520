@@ -52,10 +52,12 @@ document.addEventListener('DOMContentLoaded', function() {
       bgMusic.pause();
       musicToggle.querySelector('.btn-text').textContent = '播放音乐';
       isMusicPlaying = false;
+      // 移除所有浮动音符
+      document.querySelectorAll('.floating-note').forEach(note => note.remove());
     } else {
-      playMusic()
+      playMusic();
     }
-  })
+  });
 
   // 播放音乐函数
   function playMusic() {
@@ -73,6 +75,9 @@ document.addEventListener('DOMContentLoaded', function() {
       .then(() => {
         musicToggle.querySelector('.btn-text').textContent = '暂停音乐'
         isMusicPlaying = true;
+
+        // 添加音符动画效果
+        animateMusicNotes();
       })
       .catch(error => {
         console.error('音乐播放失败:', error)
@@ -98,6 +103,39 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   
+  // 添加音符动画
+  function animateMusicNotes() {
+    const musicPlayer = document.querySelector('.music-player')
+    const noteCount = 3
+
+    for (let i = 0; i < noteCount; i++) {
+      setTimeout(() => {
+        if (!isMusicPlaying) return
+
+        const note = document.createElement('div')
+        note.className = 'floating-note'
+        note.textContent = i % 2 === 0 ? '♪' : '♫'
+
+        const left = 40 + Math.random() * 20
+        const animDuration = 2 + Math.random() * 2
+
+        note.style.left = `${left}%`
+        note.style.animationDuration = `${animDuration}s`
+
+        musicPlayer.appendChild(note)
+
+        setTimeout(() => {
+          note.remove()
+        }, animDuration * 1000)
+      }, i * 700)
+    }
+
+    // 如果音乐还在播放，继续添加音符动画
+    if (isMusicPlaying) {
+      setTimeout(animateMusicNotes, 2000)
+    }
+  }
+
   // 爱心点击事件
   loveButton.addEventListener('click', function() {
     loveCount++;
@@ -228,7 +266,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }).then((result) => {
         if (result.isConfirmed) {
           Swal.fire({
-            title: '要不要先来点音乐?',
+            title: '要来听周杰伦的《晴天》吗?',
             text: '来点音乐放松一下心情怎么样?',
             icon: 'question',
             showCancelButton: true,
