@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
   // 全局变量
-  let loveCount = 0;
+  let loveCount = parseInt(localStorage.getItem('loveCount') || '0') // 从本地缓存读取加油次数
   let isMusicPlaying = false;
   const bgMusic = document.getElementById('bgMusic');
   const musicToggle = document.getElementById('musicToggle');
@@ -10,9 +10,15 @@ document.addEventListener('DOMContentLoaded', function() {
   const wishText = document.getElementById('wishText');
   const wishesDisplay = document.getElementById('wishesDisplay');
   const lockScreen = document.getElementById('lockScreen')
-  const currentDateElement = document.getElementById('currentDate')
+  const currentDateElement = document.getElementById('currentDate');
   const container = document.querySelector('.container');
   
+  // 防止双击缩放
+  preventZoom()
+
+  // 初始化显示计数
+  countElement.textContent = loveCount;
+
   // 检查日期
   checkDate();
   
@@ -33,6 +39,8 @@ document.addEventListener('DOMContentLoaded', function() {
   loveButton.addEventListener('click', function() {
     loveCount++;
     countElement.textContent = loveCount;
+    // 保存到本地缓存
+    localStorage.setItem('loveCount', loveCount.toString());
     createHearts();
     
     if (loveCount % 5 === 0) {
@@ -58,28 +66,61 @@ document.addEventListener('DOMContentLoaded', function() {
         text: '请写下你对她的鼓励',
         icon: 'warning',
         confirmButtonText: '好的',
-        confirmButtonColor: '#e91e63'
+        confirmButtonColor: '#e91e63',
+        showClass: {
+          popup: 'swal2-noanimation',
+          backdrop: 'swal2-noanimation'
+        },
+        hideClass: {
+          popup: '',
+          backdrop: ''
+        }
       });
     }
   });
   
+  // 防止双击缩放
+  function preventZoom() {
+    // 禁用双指缩放
+    document.addEventListener('gesturestart', function (e) {
+      e.preventDefault()
+    })
+
+    // 禁用双击缩放
+    let lastTouchEnd = 0
+    document.addEventListener('touchend', function (e) {
+      const now = Date.now()
+      if (now - lastTouchEnd <= 300) {
+        e.preventDefault()
+      }
+      lastTouchEnd = now
+    }, false)
+
+    // 防止iOS double-tap-to-zoom
+    document.addEventListener('touchstart', function (event) {
+      if (event.touches.length > 1) {
+        event.preventDefault()
+      }
+    }, { passive: false })
+  }
+
   // 检查日期函数
   function checkDate() {
     const now = new Date()
     const formattedDate = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日`
-    currentDateElement.textContent = formattedDate
+    currentDateElement.textContent = formattedDate;
 
     // 检查是否是5月20日
     const is520 = (now.getMonth() === 4 && now.getDate() === 20) // 月份从0开始，所以5月是4
 
     // 添加调试选项 - 在URL中添加?debug=1可以绕过日期检查（方便测试）
     const urlParams = new URLSearchParams(window.location.search)
-    const isDebug = urlParams.get('debug') === '1'
+    const isDebug = urlParams.get('debug') === '1';
 
     if (is520 || isDebug) {
       // 如果是520或处于调试模式，显示页面内容
       lockScreen.style.display = 'none'
-      container.classList.remove('hidden')
+      container.classList.remove('hidden');
 
       // 如果是真正的520（非调试模式），展示特殊的欢迎信息
       if (is520) {
@@ -92,17 +133,25 @@ document.addEventListener('DOMContentLoaded', function() {
             confirmButtonText: '我也爱你',
             confirmButtonColor: '#e91e63',
             background: 'rgba(255, 255, 255, 0.95)',
-            backdrop: `rgba(233, 30, 99, 0.4)`
+            backdrop: `rgba(233, 30, 99, 0.4)`,
+            showClass: {
+              popup: 'swal2-noanimation',
+              backdrop: 'swal2-noanimation'
+            },
+            hideClass: {
+              popup: '',
+              backdrop: ''
+            }
           })
-        }, 800)
+        }, 800);
       }
 
       // 初始化页面
-      initPage()
+      initPage();
     } else {
       // 如果不是520，隐藏页面内容
       lockScreen.style.display = 'flex'
-      container.classList.add('hidden')
+      container.classList.add('hidden');
     }
   }
 
@@ -118,7 +167,15 @@ document.addEventListener('DOMContentLoaded', function() {
         imageHeight: 200,
         imageAlt: '欢迎图片',
         confirmButtonText: '谢谢你的祝福',
-        confirmButtonColor: '#e91e63'
+        confirmButtonColor: '#e91e63',
+        showClass: {
+          popup: 'swal2-noanimation',
+          backdrop: 'swal2-noanimation'
+        },
+        hideClass: {
+          popup: '',
+          backdrop: ''
+        }
       }).then((result) => {
         if (result.isConfirmed) {
           Swal.fire({
@@ -128,7 +185,15 @@ document.addEventListener('DOMContentLoaded', function() {
             showCancelButton: true,
             confirmButtonText: '好啊!',
             cancelButtonText: '稍后再说',
-            confirmButtonColor: '#9c27b0'
+            confirmButtonColor: '#9c27b0',
+            showClass: {
+              popup: 'swal2-noanimation',
+              backdrop: 'swal2-noanimation'
+            },
+            hideClass: {
+              popup: '',
+              backdrop: ''
+            }
           }).then((result) => {
             if (result.isConfirmed) {
               bgMusic.play();
@@ -140,21 +205,41 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     }, 1000);
     
-    // 初始化一些随机的祝福展示
-    const sampleWishes = [
-      '相信自己，你一定能成功！',
-      '你是最棒的，面试官一定会被你的才华折服',
-      '深呼吸，放松，展现最好的自己',
-      '无论结果如何，你永远是我心中的第一名'
-    ];
-    
-    sampleWishes.forEach(wish => {
-      const wishCard = document.createElement('div');
-      wishCard.className = 'wish-card';
-      wishCard.textContent = wish;
-      wishCard.style.transform = `rotate(${Math.random() * 10 - 5}deg)`;
-      wishesDisplay.appendChild(wishCard);
-    });
+    // 从本地缓存加载祝福
+    loadWishesFromStorage()
+
+    // 初始化一些随机的祝福展示（只有在没有缓存的祝福时才显示）
+    if (!localStorage.getItem('wishes') || JSON.parse(localStorage.getItem('wishes')).length === 0) {
+      const sampleWishes = [
+        '相信自己，你一定能成功！',
+        '你是最棒的，面试官一定会被你的才华折服',
+        '深呼吸，放松，展现最好的自己',
+        '无论结果如何，你永远是我心中的第一名'
+      ]
+
+      sampleWishes.forEach(wish => {
+        const wishCard = document.createElement('div')
+        wishCard.className = 'wish-card'
+        wishCard.textContent = wish
+        wishCard.style.transform = `rotate(${Math.random() * 10 - 5}deg)`
+        wishesDisplay.appendChild(wishCard)
+      });
+    }
+  }
+
+  // 从本地缓存加载祝福
+  function loadWishesFromStorage() {
+    const savedWishes = localStorage.getItem('wishes')
+    if (savedWishes) {
+      const wishes = JSON.parse(savedWishes)
+      wishes.forEach(wish => {
+        const wishCard = document.createElement('div')
+        wishCard.className = 'wish-card'
+        wishCard.textContent = wish
+        wishCard.style.transform = `rotate(${Math.random() * 10 - 5}deg)`
+        wishesDisplay.appendChild(wishCard)
+      })
+    }
   }
 
   // 创建爱心动画
@@ -204,12 +289,23 @@ document.addEventListener('DOMContentLoaded', function() {
       text: randomMessage,
       icon: 'success',
       confirmButtonText: '谢谢你',
-      confirmButtonColor: '#e91e63'
+      confirmButtonColor: '#e91e63',
+      showClass: {
+        popup: 'swal2-noanimation',
+        backdrop: 'swal2-noanimation'
+      },
+      hideClass: {
+        popup: '',
+        backdrop: ''
+      }
     });
   }
   
   // 发送祝福
   function sendWish(wishContent) {
+    // 保存祝福到本地存储
+    saveWishToStorage(wishContent);
+
     // 创建祝福卡片
     const wishCard = document.createElement('div');
     wishCard.className = 'wish-card';
@@ -232,7 +328,31 @@ document.addEventListener('DOMContentLoaded', function() {
       title: '祝福已送出',
       text: '你的鼓励会给她力量',
       showConfirmButton: false,
-      timer: 1500
+      timer: 1500,
+      showClass: {
+        popup: 'swal2-noanimation',
+        backdrop: 'swal2-noanimation'
+      },
+      hideClass: {
+        popup: '',
+        backdrop: ''
+      }
     });
+  }
+
+  // 保存祝福到本地存储
+  function saveWishToStorage(wishContent) {
+    let wishes = []
+    const savedWishes = localStorage.getItem('wishes')
+
+    if (savedWishes) {
+      wishes = JSON.parse(savedWishes)
+    }
+
+    // 将新的祝福添加到数组开头（与界面显示顺序一致）
+    wishes.unshift(wishContent)
+
+    // 保存到本地存储
+    localStorage.setItem('wishes', JSON.stringify(wishes))
   }
 }); 
