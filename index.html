@@ -4,11 +4,28 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>520快乐 - 我爱你</title>
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❤️</text></svg>">
   <link rel="stylesheet" href="./index.css">
   <link rel="stylesheet" href="./animate.min.css">
   <script src="./sweetalert2@11.js"></script>
 </head>
 <body>
+  <!-- 加载指示器 -->
+  <div id="pageLoader" class="page-loader">
+    <div class="loader-heart"></div>
+    <p>爱的礼物加载中...</p>
+  </div>
+  
+  <!-- 背景装饰元素 -->
+  <div class="bg-decorations">
+    <div class="bg-heart bg-heart-1"></div>
+    <div class="bg-heart bg-heart-2"></div>
+    <div class="bg-heart bg-heart-3"></div>
+    <div class="bg-heart bg-heart-4"></div>
+    <div class="bg-heart bg-heart-5"></div>
+  </div>
+
   <!-- 锁定页面遮罩 -->
   <div id="lockScreen" class="lock-screen">
     <div class="lock-content animate__animated animate__fadeIn">
@@ -22,63 +39,96 @@
 
   <div class="container">
     <div class="header">
+      <div class="header-decoration header-decoration-left"></div>
       <h1 class="title animate__animated animate__heartBeat animate__infinite">520快乐</h1>
       <div class="subtitle animate__animated animate__fadeIn">今天，我想对你说</div>
+      <div class="header-decoration header-decoration-right"></div>
     </div>
     
-    <div class="love-letter">
+    <div class="love-letter card-hover">
       <div class="letter-content">
         <p>亲爱的<span class="her-name">宝贝</span>：</p>
         <p>时间匆匆，相识的每一天都是我生命中最珍贵的礼物。</p>
         <p>你的笑容如阳光般温暖，你的声音如清泉般悦耳。</p>
-        <p>520这一天，我想告诉你：<strong>我爱你</strong>！</p>
+        <p>520这一天，我想告诉你：<strong class="highlight-text">我爱你</strong>！</p>
         <p>愿意一直陪伴你，走过生命中的每一个春夏秋冬。</p>
         <p class="signature">爱你的人</p>
       </div>
+      <div class="corner-decoration"></div>
     </div>
     
     <div class="interview-wishes">
       <h2 class="animate__animated animate__fadeIn">面试加油</h2>
-      <div class="wishes-content">
+      <div class="wishes-content card-hover">
         <p>亲爱的，知道你即将面试，我想对你说：</p>
         <div class="wish-items">
           <div class="wish-item animate__animated animate__fadeInUp">
             <i class="wish-icon">🌟</i>
-            <p>你的能力和才华是无可比拟的</p>
+            <div class="wish-text">
+              <p>你的能力和才华是无可比拟的</p>
+              <div class="wish-border"></div>
+              </div>
           </div>
           <div class="wish-item animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
             <i class="wish-icon">💪</i>
-            <p>相信自己，你一定能够出色完成面试</p>
+            <div class="wish-text">
+              <p>相信自己，你一定能够出色完成面试</p>
+              <div class="wish-border"></div>
+              </div>
           </div>
           <div class="wish-item animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
             <i class="wish-icon">🍀</i>
-            <p>愿好运常伴，面试顺利通过</p>
+            <div class="wish-text">
+              <p>愿好运常伴，面试顺利通过</p>
+              <div class="wish-border"></div>
+              </div>
           </div>
           <div class="wish-item animate__animated animate__fadeInUp" style="animation-delay: 0.6s;">
             <i class="wish-icon">❤️</i>
-            <p>无论结果如何，我都会一直支持你</p>
+            <div class="wish-text">
+              <p>无论结果如何，我都会一直支持你</p>
+              <div class="wish-border"></div>
+              </div>
           </div>
         </div>
       </div>
     </div>
     
-    <div class="interactive-area">
+    <div class="interactive-area card-hover">
       <div class="heart-container">
-        <div class="heart" id="main-heart"></div>
-      </div>
-      <button class="love-btn" id="loveButton">为你加油打气</button>
+        <div class="heart-shadow"></div>
+        <div class="heart-wrapper">
+          <div class="heart" id="main-heart"></div>
+          <div class="heart-sparkles">
+            <div class="sparkle sparkle1"></div>
+            <div class="sparkle sparkle2"></div>
+            <div class="sparkle sparkle3"></div>
+            <div class="sparkle sparkle4"></div>
+          </div>
+        </div>
+        </div>
+        <button class="love-btn" id="loveButton">
+          <span class="btn-text">为你加油打气</span>
+          <span class="btn-icon">❤️</span>
+        </button>
       <div class="heart-count">已经为你加油 <span id="count">0</span> 次</div>
     </div>
     
-    <div class="music-player">
+    <div class="music-player card-hover">
       <p>送你一首歌</p>
+      <div class="music-note music-note-1">♪</div>
+      <div class="music-note music-note-2">♫</div>
       <audio id="bgMusic" loop>
         <source src="./周杰伦 - 晴天(1).mp3" type="audio/mpeg">
       </audio>
-      <button id="musicToggle" class="music-btn">播放音乐</button>
+      <button id="musicToggle" class="music-btn">
+        <span class="btn-text">播放音乐</span>
+        <span class="btn-icon">🎵</span>
+      </button>
     </div>
     
     <div class="footer">
+      <div class="footer-decoration"></div>
       <p>面试顺利 | 520快乐</p>
     </div>
   </div>

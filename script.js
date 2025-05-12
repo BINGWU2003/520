@@ -9,7 +9,18 @@ document.addEventListener('DOMContentLoaded', function() {
   const lockScreen = document.getElementById('lockScreen');
   const currentDateElement = document.getElementById('currentDate');
   const container = document.querySelector('.container');
-  
+  const pageLoader = document.getElementById('pageLoader')
+
+  // 页面加载完成后隐藏加载指示器
+  window.addEventListener('load', function () {
+    setTimeout(() => {
+      pageLoader.classList.add('hidden')
+    }, 800)
+  })
+
+  // 添加页面加载动画
+  fadeInElements();
+
   // 防止双击缩放
   preventZoom();
 
@@ -19,18 +30,73 @@ document.addEventListener('DOMContentLoaded', function() {
   // 检查日期
   checkDate();
   
+  // 页面元素淡入动画
+  function fadeInElements() {
+    const fadeElements = document.querySelectorAll('.card-hover')
+    fadeElements.forEach((el, index) => {
+      el.style.opacity = '0'
+      el.style.transform = 'translateY(20px)'
+      el.style.transition = `opacity 0.8s ease, transform 0.8s ease`
+      el.style.transitionDelay = `${0.2 + index * 0.15}s`
+
+      setTimeout(() => {
+        el.style.opacity = '1'
+        el.style.transform = 'translateY(0)'
+      }, 100)
+    })
+  }
+
   // 音乐播放控制
   musicToggle.addEventListener('click', function() {
     if (isMusicPlaying) {
       bgMusic.pause();
-      musicToggle.textContent = '播放音乐';
+      musicToggle.querySelector('.btn-text').textContent = '播放音乐';
       isMusicPlaying = false;
     } else {
-      bgMusic.play();
-      musicToggle.textContent = '暂停音乐';
-      isMusicPlaying = true;
+      playMusic()
     }
-  });
+  })
+
+  // 播放音乐函数
+  function playMusic() {
+    if (!checkAudioSupport()) {
+      Swal.fire({
+        title: '播放提示',
+        text: '您的浏览器可能会阻止自动播放，请点击页面后再尝试播放音乐',
+        icon: 'info',
+        confirmButtonColor: '#9c27b0'
+      })
+      return
+    }
+
+    bgMusic.play()
+      .then(() => {
+        musicToggle.querySelector('.btn-text').textContent = '暂停音乐'
+        isMusicPlaying = true;
+      })
+      .catch(error => {
+        console.error('音乐播放失败:', error)
+        Swal.fire({
+          title: '音乐播放失败',
+          text: '请点击页面任意位置后再尝试播放音乐',
+          icon: 'info',
+          confirmButtonColor: '#9c27b0'
+        })
+      })
+  }
+
+  // 检查音频支持
+  function checkAudioSupport() {
+    // 检查是否支持Web Audio API
+    try {
+      window.AudioContext = window.AudioContext || window.webkitAudioContext
+      const audioCtx = new AudioContext()
+      return true
+    } catch (e) {
+      console.warn('当前浏览器不完全支持Web Audio API:', e)
+      return false
+    }
+  }
   
   // 爱心点击事件
   loveButton.addEventListener('click', function() {
@@ -47,6 +113,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // 让主爱心跳动更明显
     const mainHeart = document.getElementById('main-heart');
     mainHeart.classList.add('love-pulse');
+
+    // 添加闪光特效
+    const sparkles = document.querySelectorAll('.sparkle')
+    sparkles.forEach(sparkle => {
+      sparkle.style.animation = 'none'
+      setTimeout(() => {
+        sparkle.style.animation = ''
+      }, 10)
+    });
+
     setTimeout(() => {
       mainHeart.classList.remove('love-pulse');
     }, 1000);
@@ -169,9 +245,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
           }).then((result) => {
             if (result.isConfirmed) {
-              bgMusic.play();
-              musicToggle.textContent = '暂停音乐';
-              isMusicPlaying = true;
+              playMusic();
             }
           });
         }
@@ -192,18 +266,67 @@ document.addEventListener('DOMContentLoaded', function() {
       const left = 10 + Math.random() * 80; // 百分比位置
       const animDuration = 3 + Math.random() * 4; // 动画时长
       const size = 10 + Math.random() * 20; // 爱心大小
+      const opacity = 0.5 + Math.random() * 0.5
+
+      // 随机旋转和位置偏移
+      const rotation = Math.random() * 30 - 15
+      const startX = Math.random() * 40 - 20 // 初始水平位置偏移
+
+      // 随机颜色（在主色和次级色之间随机）
+      const colors = [
+        '#e91e63', '#ff6090', '#b0003a', // 主色系
+        '#9c27b0', '#d05ce3', '#6a0080'  // 次级色系
+      ]
+      const randomColor = colors[Math.floor(Math.random() * colors.length)]
+
+      // 设置自定义动画
+      const customAnimation = `
+        @keyframes float-custom-${i} {
+          0% {
+            transform: rotate(${rotation}deg) translateY(0) translateX(${startX}px);
+            opacity: ${opacity};
+          }
+          20% {
+            opacity: ${opacity};
+          }
+          100% {
+            transform: rotate(${rotation + (Math.random() * 20 - 10)}deg) translateY(-100vh) translateX(${startX + (Math.random() * 100 - 50)}px);
+            opacity: 0;
+          }
+        }
+      `
+
+      const styleSheet = document.createElement('style')
+      styleSheet.textContent = customAnimation
+      document.head.appendChild(styleSheet);
       
       heart.style.left = `${left}%`;
       heart.style.width = `${size}px`;
       heart.style.height = `${size}px`;
-      heart.style.animationDuration = `${animDuration}s`;
-      heart.style.opacity = 0.5 + Math.random() * 0.5;
+      heart.style.animation = `float-custom-${i} ${animDuration}s ease-out forwards`
+      heart.style.backgroundColor = randomColor
+      heart.style.boxShadow = `0 0 10px ${randomColor}40`
+
+      // 为伪元素设置样式
+      const style = document.createElement('style')
+      const randomId = 'heart-' + Math.random().toString(36).substr(2, 9)
+      heart.id = randomId
+
+      style.textContent = `
+        #${randomId}:before, #${randomId}:after {
+          background-color: ${randomColor};
+          box-shadow: 0 0 10px ${randomColor}40;
+        }
+      `;
       
+      document.head.appendChild(style);
       container.appendChild(heart);
       
       // 动画结束后移除元素
       setTimeout(() => {
         heart.remove();
+        style.remove()
+        styleSheet.remove();
       }, animDuration * 1000);
     }
   }
