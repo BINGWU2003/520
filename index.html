@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>520快乐 - 我爱你</title>
+  <link rel="stylesheet" href="./index.css">
+  <link rel="stylesheet" href="./animate.min.css">
+  <script src="./sweetalert2@11.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 class="title animate__animated animate__heartBeat animate__infinite">520快乐</h1>
+      <div class="subtitle animate__animated animate__fadeIn">今天，我想对你说</div>
+    </div>
+    
+    <div class="love-letter">
+      <div class="letter-content">
+        <p>亲爱的<span class="her-name">宝贝</span>：</p>
+        <p>时间匆匆，相识的每一天都是我生命中最珍贵的礼物。</p>
+        <p>你的笑容如阳光般温暖，你的声音如清泉般悦耳。</p>
+        <p>520这一天，我想告诉你：<strong>我爱你</strong>！</p>
+        <p>愿意一直陪伴你，走过生命中的每一个春夏秋冬。</p>
+        <p class="signature">爱你的人</p>
+      </div>
+    </div>
+    
+    <div class="interview-wishes">
+      <h2 class="animate__animated animate__fadeIn">面试加油</h2>
+      <div class="wishes-content">
+        <p>亲爱的，知道你即将面试，我想对你说：</p>
+        <div class="wish-items">
+          <div class="wish-item animate__animated animate__fadeInUp">
+            <i class="wish-icon">🌟</i>
+            <p>你的能力和才华是无可比拟的</p>
+          </div>
+          <div class="wish-item animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+            <i class="wish-icon">💪</i>
+            <p>相信自己，你一定能够出色完成面试</p>
+          </div>
+          <div class="wish-item animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
+            <i class="wish-icon">🍀</i>
+            <p>愿好运常伴，面试顺利通过</p>
+          </div>
+          <div class="wish-item animate__animated animate__fadeInUp" style="animation-delay: 0.6s;">
+            <i class="wish-icon">❤️</i>
+            <p>无论结果如何，我都会一直支持你</p>
+          </div>
+        </div>
+        <div class="countdown">
+          <p>面试倒计时：<span id="countdownTimer">加载中...</span></p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="interactive-area">
+      <div class="heart-container">
+        <div class="heart" id="main-heart"></div>
+      </div>
+      <button class="love-btn" id="loveButton">为你加油打气</button>
+      <div class="heart-count">已经为你加油 <span id="count">0</span> 次</div>
+    </div>
+    
+    <div class="music-player">
+      <p>送你一首歌</p>
+      <audio id="bgMusic" loop>
+        <source src="https://music.163.com/song/media/outer/url?id=1435828582.mp3" type="audio/mpeg">
+      </audio>
+      <button id="musicToggle" class="music-btn">播放音乐</button>
+    </div>
+    
+    <div class="wishes">
+      <div class="wish-container">
+        <textarea id="wishText" placeholder="写下你对她的鼓励..."></textarea>
+        <button id="sendWish" class="wish-btn">发送祝福</button>
+      </div>
+      <div id="wishesDisplay" class="wishes-display"></div>
+    </div>
+    
+    <div class="footer">
+      <p>面试顺利 | 520快乐</p>
+    </div>
+  </div>
+
+  <script src="./script.js"></script>
+</body>
+</html>

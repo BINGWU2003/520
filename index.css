@@ -1,0 +1,457 @@
+@import url('./font.woff2');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'ZCOOL XiaoWei', serif;
+  background: linear-gradient(135deg, #ffcdd2, #f8bbd0, #e1bee7);
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+  padding: 20px 0;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.title {
+  font-family: 'Ma Shan Zheng', cursive;
+  color: #e91e63;
+  font-size: 3.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  color: #9c27b0;
+  margin-top: 10px;
+}
+
+/* 情书样式 */
+.love-letter {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.love-letter::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-width: 0 30px 30px 0;
+  border-style: solid;
+  border-color: #f8bbd0 transparent;
+}
+
+.letter-content {
+  line-height: 1.8;
+}
+
+.letter-content p {
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+}
+
+.her-name {
+  font-weight: bold;
+  color: #e91e63;
+}
+
+.signature {
+  text-align: right;
+  font-style: italic;
+  margin-top: 20px;
+}
+
+/* 面试祝福区域样式 */
+.interview-wishes {
+  margin-bottom: 40px;
+}
+
+.interview-wishes h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #9c27b0;
+  font-size: 1.8rem;
+}
+
+.wishes-content {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.wishes-content > p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #e91e63;
+}
+
+.wish-items {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.wish-item {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.wish-item:hover {
+  transform: translateX(10px);
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.wish-icon {
+  font-size: 2rem;
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wish-item p {
+  font-size: 1.1rem;
+}
+
+.countdown {
+  text-align: center;
+  margin-top: 20px;
+  padding: 15px;
+  background-color: rgba(156, 39, 176, 0.1);
+  border-radius: 10px;
+}
+
+.countdown p {
+  font-size: 1.2rem;
+  color: #9c27b0;
+}
+
+#countdownTimer {
+  font-weight: bold;
+  color: #e91e63;
+}
+
+/* 交互区域样式 */
+.interactive-area {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.heart-container {
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.heart {
+  background-color: #ff4081;
+  display: inline-block;
+  height: 60px;
+  width: 60px;
+  position: relative;
+  transform: rotate(45deg);
+  animation: pulse 1.5s infinite;
+}
+
+.heart:before,
+.heart:after {
+  content: "";
+  background-color: #ff4081;
+  border-radius: 50%;
+  height: 60px;
+  position: absolute;
+  width: 60px;
+}
+
+.heart:before {
+  top: -30px;
+  left: 0;
+}
+
+.heart:after {
+  left: -30px;
+  top: 0;
+}
+
+/* 心跳动画 */
+@keyframes pulse {
+  0% {
+    transform: rotate(45deg) scale(1);
+  }
+  25% {
+    transform: rotate(45deg) scale(1.1);
+  }
+  50% {
+    transform: rotate(45deg) scale(1);
+  }
+  75% {
+    transform: rotate(45deg) scale(1.2);
+  }
+  100% {
+    transform: rotate(45deg) scale(1);
+  }
+}
+
+/* 按钮点击时的爱心动画 */
+.love-pulse {
+  animation: love-pulse 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+@keyframes love-pulse {
+  0% {
+    transform: rotate(45deg) scale(1);
+  }
+  50% {
+    transform: rotate(45deg) scale(1.5);
+  }
+  100% {
+    transform: rotate(45deg) scale(1);
+  }
+}
+
+.love-btn {
+  background-color: #e91e63;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  font-size: 1.1rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 15px;
+  font-family: 'ZCOOL XiaoWei', serif;
+  box-shadow: 0 3px 10px rgba(233, 30, 99, 0.2);
+}
+
+.love-btn:hover {
+  background-color: #c2185b;
+  transform: scale(1.05);
+}
+
+.heart-count {
+  font-size: 1.1rem;
+  color: #9c27b0;
+}
+
+/* 音乐播放器样式 */
+.music-player {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.music-player p {
+  margin-bottom: 15px;
+  color: #9c27b0;
+  font-size: 1.3rem;
+}
+
+.music-btn {
+  background-color: #9c27b0;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'ZCOOL XiaoWei', serif;
+}
+
+.music-btn:hover {
+  background-color: #7b1fa2;
+}
+
+/* 愿望区域样式 */
+.wishes {
+  margin-bottom: 40px;
+}
+
+.wish-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#wishText {
+  width: 100%;
+  max-width: 500px;
+  height: 80px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #e1bee7;
+  font-family: 'ZCOOL XiaoWei', serif;
+  font-size: 1rem;
+  margin-bottom: 15px;
+  resize: none;
+}
+
+.wish-btn {
+  background-color: #8e24aa;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'ZCOOL XiaoWei', serif;
+}
+
+.wish-btn:hover {
+  background-color: #6a1b9a;
+}
+
+.wishes-display {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+}
+
+.wish-card {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 15px;
+  border-radius: 10px;
+  width: 200px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+  animation: float 3s infinite alternate;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
+/* 页脚样式 */
+.footer {
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(156, 39, 176, 0.3);
+  color: #9c27b0;
+}
+
+/* 飘浮的爱心 */
+.floating-heart {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: #ff4081;
+  transform: rotate(45deg);
+  animation: float-up 4s linear forwards;
+  opacity: 0.8;
+  z-index: 10;
+}
+
+.floating-heart:before,
+.floating-heart:after {
+  content: "";
+  background-color: #ff4081;
+  border-radius: 50%;
+  height: 20px;
+  position: absolute;
+  width: 20px;
+}
+
+.floating-heart:before {
+  top: -10px;
+  left: 0;
+}
+
+.floating-heart:after {
+  left: -10px;
+  top: 0;
+}
+
+@keyframes float-up {
+  0% {
+    transform: rotate(45deg) translateY(0) translateX(0);
+    opacity: 0.8;
+  }
+  100% {
+    transform: rotate(45deg) translateY(-100vh) translateX(20px);
+    opacity: 0;
+  }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .title {
+    font-size: 2.5rem;
+  }
+  
+  .subtitle {
+    font-size: 1.2rem;
+  }
+  
+  .wish-items {
+    gap: 10px;
+  }
+  
+  .wish-item {
+    padding: 10px;
+  }
+  
+  .wish-icon {
+    font-size: 1.5rem;
+    margin-right: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 15px;
+  }
+  
+  .title {
+    font-size: 2rem;
+  }
+  
+  .letter-content p {
+    font-size: 1rem;
+  }
+  
+  .wish-item p {
+    font-size: 0.95rem;
+  }
+  
+  .love-btn, .music-btn, .wish-btn {
+    padding: 10px 15px;
+  }
+}
