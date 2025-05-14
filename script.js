@@ -1027,83 +1027,110 @@ document.addEventListener('DOMContentLoaded', function() {
   // 初始化抽奖功能
   function initLuckyDraw() {
     const giftBox = document.getElementById('giftBox')
-    const drawRemain = document.getElementById('drawRemain')
+    const drawRemain = document.getElementById('drawRemain');
 
     // 从本地存储获取剩余抽奖次数
-    let remainDraws = parseInt(localStorage.getItem('remainDraws') || '3')
+    let remainDraws = parseInt(localStorage.getItem('remainDraws') || '3');
     // 从本地存储获取上次抽奖日期
     const lastDrawDate = localStorage.getItem('lastDrawDate')
-    const today = new Date().toDateString()
+    const today = new Date().toDateString();
 
-    // 如果是新的一天，重置抽奖次数
+    // 调戏用户相关变量
+    let emptyClickCount = 0 // 抽奖次数为0时的点击次数
+    let hasBeenTeased = localStorage.getItem('hasBeenTeased') === 'true' // 今天是否已经被调戏过
+
+    // 如果是新的一天，重置抽奖次数和调戏状态
     if (lastDrawDate !== today) {
       remainDraws = 3
+      hasBeenTeased = false
       localStorage.setItem('lastDrawDate', today)
       localStorage.setItem('remainDraws', remainDraws.toString())
+      localStorage.setItem('hasBeenTeased', 'false');
     }
 
     // 更新显示
-    drawRemain.textContent = remainDraws.toString()
+    drawRemain.textContent = remainDraws.toString();
 
     // 礼盒点击事件
     giftBox.addEventListener('click', function () {
       // 如果没有剩余抽奖次数
       if (remainDraws <= 0) {
+        emptyClickCount++
+
+        // 如果今天还没被调戏过，且点击了3次
+        if (!hasBeenTeased && emptyClickCount >= 3) {
+          teaseUser().then(bonus => {
+            // 奖励新的抽奖次数
+            remainDraws = bonus
+            localStorage.setItem('remainDraws', remainDraws.toString())
+            drawRemain.textContent = remainDraws.toString()
+
+            // 标记为已被调戏
+            hasBeenTeased = true
+            localStorage.setItem('hasBeenTeased', 'true')
+
+            // 重置点击计数
+            emptyClickCount = 0
+          })
+          return
+        }
+
+        // 普通提示
         Swal.fire({
           title: '今日抽奖次数已用完',
-          text: '明天再来吧～',
+          text: hasBeenTeased ? '明天再来吧～' : '真的没有了哦...',
           icon: 'info',
           confirmButtonColor: '#9c27b0'
         })
-        return
+        return;
       }
 
       // 如果礼盒正在动画中，不响应点击
       if (this.classList.contains('open') || this.classList.contains('shaking')) {
-        return
+        return;
       }
 
       // 播放礼盒抖动动画
-      this.classList.add('shaking')
+      this.classList.add('shaking');
 
       setTimeout(() => {
         // 移除抖动类
-        this.classList.remove('shaking')
+        this.classList.remove('shaking');
         // 添加打开类
-        this.classList.add('open')
+        this.classList.add('open');
 
         // 抽奖并显示结果
-        openGiftBox()
+        openGiftBox();
 
         // 减少抽奖次数
         remainDraws--
         localStorage.setItem('remainDraws', remainDraws.toString())
-        drawRemain.textContent = remainDraws.toString()
+        drawRemain.textContent = remainDraws.toString();
 
         // 3秒后关闭礼盒
         setTimeout(() => {
           giftBox.classList.remove('open')
         }, 3000)
       }, 500)
-    })
+    });
 
     // 初始化设备摇动检测
     if (window.DeviceMotionEvent) {
       let shakeThreshold = 15 // 摇动阈值
       let lastX = 0, lastY = 0, lastZ = 0
-      let lastShakeTime = 0
+      let lastShakeTime = 0;
 
       window.addEventListener('devicemotion', function (event) {
-        const now = Date.now()
+        const now = Date.now();
         // 限制摇动响应频率（至少间隔1秒）
-        if (now - lastShakeTime < 1000) return
+        if (now - lastShakeTime < 1000) return;
 
         const acceleration = event.accelerationIncludingGravity
-        if (!acceleration) return
+        if (!acceleration) return;
 
         const x = acceleration.x
         const y = acceleration.y
-        const z = acceleration.z
+        const z = acceleration.z;
 
         // 计算摇动幅度
         const deltaX = Math.abs(x - lastX)
@@ -1114,7 +1141,7 @@ document.addEventListener('DOMContentLoaded', function() {
           (deltaX > shakeThreshold && deltaZ > shakeThreshold) ||
           (deltaY > shakeThreshold && deltaZ > shakeThreshold)) {
 
-          lastShakeTime = now
+          lastShakeTime = now;
           // 模拟点击礼盒
           giftBox.click()
         }
@@ -1124,6 +1151,204 @@ document.addEventListener('DOMContentLoaded', function() {
         lastZ = z
       })
     }
+  }
+
+  // 调戏用户的函数
+  async function teaseUser() {
+    // 调戏文案集合
+    const teaseScripts = [
+      // 文案套装1 - 系统故障
+      {
+        step1: {
+          title: '系统检测到异常',
+          text: '你的点击行为似乎有些可疑...',
+          icon: 'warning'
+        },
+        step2: {
+          title: '警告',
+          text: '礼物盒已超负荷，系统将在3秒后自毁',
+          icon: 'error'
+        },
+        step3: {
+          title: '正在计算惩罚措施...',
+          text: '请不要关闭窗口',
+          image: true
+        },
+        step4: {
+          title: '开玩笑的啦',
+          text: '检测到你的执着，系统决定特别奖励你',
+          subtitle: '这可是专属特权哦！'
+        }
+      },
+
+      // 文案套装2 - 恶作剧
+      {
+        step1: {
+          title: '咦？你在做什么',
+          text: '这个礼盒已经空了...',
+          icon: 'question'
+        },
+        step2: {
+          title: '再点也没用啦',
+          text: '这样点击会把礼盒弄坏的',
+          icon: 'warning'
+        },
+        step3: {
+          title: '礼盒开始生气了',
+          text: '它正在酝酿某种报复...',
+          image: true
+        },
+        step4: {
+          title: '哎呀，礼盒心软了',
+          text: '看在你这么喜欢它的份上，它决定送你一点礼物',
+          subtitle: '真是个善良的礼盒呢~'
+        }
+      },
+
+      // 文案套装3 - 魔法故事
+      {
+        step1: {
+          title: '嘘...',
+          text: '你触发了一个神秘的咒语',
+          icon: 'info'
+        },
+        step2: {
+          title: '魔法能量正在聚集',
+          text: '请保持安静，不要惊扰到魔法精灵',
+          icon: 'magic'
+        },
+        step3: {
+          title: '魔法仪式进行中',
+          text: '星辰、月光、微风正在回应你的召唤',
+          image: true
+        },
+        step4: {
+          title: '祝贺！魔法成功了',
+          text: '魔法精灵被你的诚心打动，决定赐予你礼物',
+          subtitle: '这是来自魔法世界的馈赠~'
+        }
+      },
+
+      // 文案套装4 - 考验
+      {
+        step1: {
+          title: '坚持不懈的点击',
+          text: '你引起了命运女神的注意',
+          icon: 'info'
+        },
+        step2: {
+          title: '命运的考验',
+          text: '女神决定给你一个小小的挑战',
+          icon: 'question'
+        },
+        step3: {
+          title: '正在评估你的资质',
+          text: '请等待最终裁决...',
+          image: true
+        },
+        step4: {
+          title: '考验通过！',
+          text: '你的执着打动了命运女神，她决定眷顾你',
+          subtitle: '享受这份来之不易的奖励吧！'
+        }
+      },
+
+      // 文案套装5 - 科技故障
+      {
+        step1: {
+          title: '检测到非法操作',
+          text: '正在记录IP地址和设备信息...',
+          icon: 'error'
+        },
+        step2: {
+          title: '安全警报已触发',
+          text: '请在5秒内停止操作，否则将采取措施',
+          icon: 'warning'
+        },
+        step3: {
+          title: '系统防御机制启动',
+          text: '正在部署反制措施...',
+          image: true
+        },
+        step4: {
+          title: '安全协议已重置',
+          text: '看来你是真心喜欢这个礼盒，系统决定破例放行',
+          subtitle: '不要告诉别人这个秘密哦~'
+        }
+      }
+    ]
+
+    // 根据日期生成一个随机数，但同一天内保持一致
+    const today = new Date().toDateString()
+    const seed = hashCode(today)
+    const randomIndex = Math.abs(seed) % teaseScripts.length
+
+    // 选择今日的调戏文案
+    const script = teaseScripts[randomIndex]
+
+    // 调戏步骤1
+    await Swal.fire({
+      title: script.step1.title,
+      text: script.step1.text,
+      icon: script.step1.icon,
+      confirmButtonColor: '#e91e63',
+      timer: 2000,
+      timerProgressBar: true,
+      showConfirmButton: false
+    })
+
+    // 调戏步骤2
+    await Swal.fire({
+      title: script.step2.title,
+      text: script.step2.text,
+      icon: script.step2.icon,
+      confirmButtonColor: '#e91e63',
+      timer: 3000,
+      timerProgressBar: true,
+      showConfirmButton: false
+    })
+
+    // 调戏步骤3
+    await Swal.fire({
+      title: script.step3.title,
+      text: script.step3.text,
+      imageUrl: script.step3.image ? 'https://cloudshoping-1318477772.cos.ap-nanjing.myqcloud.com/Gemini_Generated_Image_se3iavse3iavse3i.jpg' : null,
+      imageHeight: 100,
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.showLoading()
+      }
+    })
+
+    // 调戏步骤4：反转情绪，奖励用户
+    const bonusDraws = Math.floor(Math.random() * 3) + 2 // 随机奖励2-4次抽奖机会
+
+    await Swal.fire({
+      title: script.step4.title,
+      html: `<p>${script.step4.text}</p>
+            <p style="font-size: 1.5rem; color: #e91e63; margin: 15px 0;">
+              <strong>${bonusDraws}次</strong> 抽奖机会
+            </p>
+            <p style="font-size: 0.9rem; color: #666;">${script.step4.subtitle}</p>`,
+      icon: 'success',
+      confirmButtonText: '太棒了',
+      confirmButtonColor: '#e91e63'
+    })
+
+    return bonusDraws
+  }
+
+  // 根据字符串生成哈希码（用于基于日期生成稳定的随机数）
+  function hashCode(str) {
+    let hash = 0
+    for (let i = 0; i < str.length; i++) {
+      const char = str.charCodeAt(i)
+      hash = ((hash << 5) - hash) + char
+      hash = hash & hash // 转换为32位整数
+    }
+    return hash
   }
 
   // 打开礼盒显示礼物
