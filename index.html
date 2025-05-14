@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -10,13 +11,14 @@
   <link rel="stylesheet" href="./animate.min.css">
   <script src="./sweetalert2@11.js"></script>
 </head>
+
 <body>
   <!-- 加载指示器 -->
   <div id="pageLoader" class="page-loader">
     <div class="loader-heart"></div>
     <p>爱的礼物加载中...</p>
   </div>
-  
+
   <!-- 背景装饰元素 -->
   <div class="bg-decorations">
     <div class="bg-heart bg-heart-1"></div>
@@ -65,7 +67,7 @@
       <div class="subtitle animate__animated animate__fadeIn">今天，我想对你说</div>
       <div class="header-decoration header-decoration-right"></div>
     </div>
-    
+
     <div class="love-letter card-hover">
       <div class="letter-content">
         <p>亲爱的<span class="her-name">周周</span>：</p>
@@ -77,44 +79,44 @@
       </div>
       <div class="corner-decoration"></div>
     </div>
-    
+
     <div class="interview-wishes">
       <h2 class="animate__animated animate__fadeIn">备课加油</h2>
       <div class="wishes-content card-hover">
-        <p>亲爱的，每天磨课很辛苦，我想对你说：</p>
+        <p>亲爱的周周，每天磨课很辛苦，我想对你说：</p>
         <div class="wish-items">
           <div class="wish-item animate__animated animate__fadeInUp">
             <i class="wish-icon">🌟</i>
             <div class="wish-text">
               <p>周周永远是最棒的！</p>
               <div class="wish-border"></div>
-              </div>
+            </div>
           </div>
           <div class="wish-item animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
             <i class="wish-icon">💪</i>
             <div class="wish-text">
               <p>相信自己，你课讲的超级好！</p>
               <div class="wish-border"></div>
-              </div>
+            </div>
           </div>
           <div class="wish-item animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
             <i class="wish-icon">🍀</i>
             <div class="wish-text">
               <p>再辛苦也要照顾好自己哦！</p>
               <div class="wish-border"></div>
-              </div>
+            </div>
           </div>
           <div class="wish-item animate__animated animate__fadeInUp" style="animation-delay: 0.6s;">
             <i class="wish-icon">❤️</i>
             <div class="wish-text">
               <p>努力备课的样子真的很美！</p>
               <div class="wish-border"></div>
-              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    
+
     <div class="interactive-area card-hover">
       <div class="heart-container">
         <div class="heart-shadow"></div>
@@ -127,14 +129,14 @@
             <div class="sparkle sparkle4"></div>
           </div>
         </div>
-        </div>
-        <button class="love-btn" id="loveButton">
-          <span class="btn-text">为你备课加油</span>
-          <span class="btn-icon">❤️</span>
-        </button>
+      </div>
+      <button class="love-btn" id="loveButton">
+        <span class="btn-text">为你备课加油</span>
+        <span class="btn-icon">❤️</span>
+      </button>
       <div class="heart-count">已经为你加油 <span id="count">0</span> 次</div>
     </div>
-    
+
     <div class="music-player card-hover">
       <p>送你一首歌 - <span class="song-title">周杰伦《晴天》</span></p>
       <div class="music-note music-note-1">♪</div>
@@ -148,7 +150,7 @@
         <span class="btn-icon">🎵</span>
       </button>
     </div>
-    
+
     <!-- 新增心愿纸飞机互动区域 -->
     <div class="airplane-section card-hover">
       <h2 class="animate__animated animate__fadeIn">发送心愿纸飞机</h2>
@@ -169,7 +171,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- 新增幸运抽奖区域 -->
     <div class="lucky-draw card-hover">
       <h2 class="animate__animated animate__fadeIn">今日幸运礼物</h2>
@@ -186,44 +188,45 @@
     <div class="footer">
       <div class="footer-decoration"></div>
       <p id="footerText">备课辛苦了 | 520快乐</p>
+    </div>
+  </div>
+
+  <!-- 隐藏彩蛋：点击页脚文字10次显示所有礼物和心愿内容 -->
+  <div id="secretContent" class="secret-content">
+    <div class="secret-header">
+      <h2>🎁 神秘彩蛋：所有宝藏内容已解锁 🎁</h2>
+      <button id="closeSecret" class="close-secret">×</button>
+    </div>
+    <div class="secret-tabs">
+      <button class="tab-btn active" data-tab="gifts">所有礼物</button>
+      <button class="tab-btn" data-tab="wishes">所有心愿</button>
+    </div>
+    <div class="secret-content-area">
+      <!-- 礼物列表 -->
+      <div class="tab-content active" id="gifts-content">
+        <div class="gifts-grid"></div>
       </div>
+      <!-- 心愿列表 -->
+      <div class="tab-content" id="wishes-content">
+        <div class="wishes-categories">
+          <div class="wish-category">
+            <h3>🔥 加油打气</h3>
+            <ul class="encouragement-list"></ul>
+          </div>
+          <div class="wish-category">
+            <h3>💕 关心问候</h3>
+            <ul class="caring-list"></ul>
+          </div>
+          <div class="wish-category">
+            <h3>👏 鼓励肯定</h3>
+            <ul class="affirmation-list"></ul>
+          </div>
+        </div>
       </div>
-      
-      <!-- 隐藏彩蛋：点击页脚文字10次显示所有礼物和心愿内容 -->
-      <div id="secretContent" class="secret-content">
-        <div class="secret-header">
-          <h2>🎁 神秘彩蛋：所有宝藏内容已解锁 🎁</h2>
-          <button id="closeSecret" class="close-secret">×</button>
-        </div>
-        <div class="secret-tabs">
-          <button class="tab-btn active" data-tab="gifts">所有礼物</button>
-          <button class="tab-btn" data-tab="wishes">所有心愿</button>
-        </div>
-        <div class="secret-content-area">
-          <!-- 礼物列表 -->
-          <div class="tab-content active" id="gifts-content">
-            <div class="gifts-grid"></div>
-          </div>
-          <!-- 心愿列表 -->
-          <div class="tab-content" id="wishes-content">
-            <div class="wishes-categories">
-              <div class="wish-category">
-                <h3>🔥 加油打气</h3>
-                <ul class="encouragement-list"></ul>
-              </div>
-              <div class="wish-category">
-                <h3>💕 关心问候</h3>
-                <ul class="caring-list"></ul>
-              </div>
-              <div class="wish-category">
-                <h3>👏 鼓励肯定</h3>
-                <ul class="affirmation-list"></ul>
-              </div>
-            </div>
-          </div>
     </div>
   </div>
 
   <script src="./script.js"></script>
 </body>
+
 </html>
