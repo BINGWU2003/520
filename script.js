@@ -13,6 +13,13 @@ document.addEventListener('DOMContentLoaded', function() {
   // 记录总共抽奖次数
   let totalDraws = parseInt(localStorage.getItem('totalDraws') || '0')
 
+  // 彩蛋状态跟踪
+  let eggsFound = {
+    egg1: localStorage.getItem('egg1Found') === 'true' || false, // 隐藏菜单彩蛋
+    egg2: localStorage.getItem('egg2Found') === 'true' || false, // 调戏用户彩蛋
+    egg3: localStorage.getItem('egg3Found') === 'true' || false  // 情书彩蛋
+  };
+
   // 礼物列表
   const gifts = [
     { emoji: '🌹', name: '一朵玫瑰花', desc: '象征我对你的爱' },
@@ -1342,6 +1349,13 @@ document.addEventListener('DOMContentLoaded', function() {
       confirmButtonColor: '#e91e63'
     })
 
+    // 标记调戏彩蛋为已找到
+    if (!eggsFound.egg2) {
+      eggsFound.egg2 = true
+      localStorage.setItem('egg2Found', 'true')
+      updateEggProgress(2, "机智的你发现了礼物盒的秘密！加油！继续探索还有更多惊喜等着你哦~")
+    }
+
     return bonusDraws
   }
 
@@ -1436,6 +1450,13 @@ document.addEventListener('DOMContentLoaded', function() {
         createManyHearts(50)
       }
     })
+
+    // 标记情书彩蛋为已找到
+    if (!eggsFound.egg3) {
+      eggsFound.egg3 = true
+      localStorage.setItem('egg3Found', 'true')
+      updateEggProgress(3, "太棒了！你发现了情书彩蛋！请收集礼物吧！")
+    }
   }
 
   // 创建多个爱心特效
@@ -1569,6 +1590,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // 重置点击计数
         clickCount = 0
+
+        // 标记隐藏菜单彩蛋为已找到
+        if (!eggsFound.egg1) {
+          eggsFound.egg1 = true
+          localStorage.setItem('egg1Found', 'true')
+          updateEggProgress(1, "恭喜你发现了隐藏菜单彩蛋！这都能被你发现，真厉害！现在你可以查看所有礼物和心愿了！")
+        }
       }
     })
 
@@ -1659,5 +1687,121 @@ document.addEventListener('DOMContentLoaded', function() {
       li.textContent = wish
       affirmationList.appendChild(li)
     })
+  }
+
+  // 初始化彩蛋提示组件
+  initEggHint()
+
+  // 彩蛋提示组件逻辑
+  function initEggHint() {
+    const eggHintIcon = document.getElementById('eggHintIcon')
+    const eggHintPopup = document.getElementById('eggHintPopup')
+    const eggHintClose = document.getElementById('eggHintClose')
+    const eggItem1 = document.getElementById('eggItem1')
+    const eggItem2 = document.getElementById('eggItem2')
+    const eggItem3 = document.getElementById('eggItem3')
+    const eggFoundCount = document.getElementById('eggFoundCount')
+    const eggProgressFill = document.getElementById('eggProgressFill')
+    const eggMessage = document.getElementById('eggMessage')
+
+    // 根据localStorage初始化彩蛋状态
+    updateEggUI()
+
+    // 点击图标显示提示
+    eggHintIcon.addEventListener('click', function () {
+      eggHintPopup.classList.toggle('active')
+    })
+
+    // 点击关闭按钮
+    eggHintClose.addEventListener('click', function () {
+      eggHintPopup.classList.remove('active')
+    })
+
+    // 点击页面其他区域关闭提示
+    document.addEventListener('click', function (event) {
+      if (!eggHintPopup.contains(event.target) && event.target !== eggHintIcon) {
+        eggHintPopup.classList.remove('active')
+      }
+    })
+
+    // 自动显示彩蛋提示（5秒后）
+    setTimeout(() => {
+      eggHintPopup.classList.add('active')
+
+      // 3秒后自动关闭
+      setTimeout(() => {
+        eggHintPopup.classList.remove('active')
+      }, 5000)
+    }, 5000)
+  }
+
+  // 更新彩蛋进度
+  function updateEggProgress(eggNumber, message) {
+    const eggItem1 = document.getElementById('eggItem1')
+    const eggItem2 = document.getElementById('eggItem2')
+    const eggItem3 = document.getElementById('eggItem3')
+    const eggFoundCount = document.getElementById('eggFoundCount')
+    const eggProgressFill = document.getElementById('eggProgressFill')
+    const eggMessage = document.getElementById('eggMessage')
+    const eggHintPopup = document.getElementById('eggHintPopup')
+
+    // 更新UI
+    updateEggUI()
+
+    // 显示彩蛋找到提示
+    eggHintPopup.classList.add('active')
+
+    // 设置消息
+    eggMessage.innerHTML = message
+
+    // 如果全部彩蛋都找到了
+    if (eggsFound.egg1 && eggsFound.egg2 && eggsFound.egg3) {
+      setTimeout(() => {
+        Swal.fire({
+          title: '🎊 恭喜你找到了所有彩蛋！🎊',
+          html: `
+            <div style="text-align: center;">
+              <p>亲爱的周周，你太厉害了！成功找到了所有隐藏的彩蛋！</p>
+              <p>希望这些小惊喜能为你的520增添一些快乐，正如你每天都为我的生活带来阳光一样。</p>
+              <p style="margin-top: 15px; font-weight: bold; color: #e91e63;">我爱你 ❤️</p>
+            </div>
+          `,
+          icon: 'success',
+          confirmButtonText: '谢谢你的礼物',
+          confirmButtonColor: '#e91e63'
+        }).then(() => {
+          createManyHearts(100) // 全部找到时，创建更多爱心效果
+        })
+      }, 1500)
+    }
+
+    // 5秒后自动关闭提示
+    setTimeout(() => {
+      eggHintPopup.classList.remove('active')
+    }, 5000)
+  }
+
+  // 更新彩蛋UI
+  function updateEggUI() {
+    const eggItem1 = document.getElementById('eggItem1')
+    const eggItem2 = document.getElementById('eggItem2')
+    const eggItem3 = document.getElementById('eggItem3')
+    const eggFoundCount = document.getElementById('eggFoundCount')
+    const eggProgressFill = document.getElementById('eggProgressFill')
+
+    // 更新彩蛋状态
+    if (eggsFound.egg1) eggItem1.classList.add('found')
+    if (eggsFound.egg2) eggItem2.classList.add('found')
+    if (eggsFound.egg3) eggItem3.classList.add('found')
+
+    // 计算已找到的彩蛋数量
+    let foundCount = 0
+    if (eggsFound.egg1) foundCount++
+    if (eggsFound.egg2) foundCount++
+    if (eggsFound.egg3) foundCount++
+
+    // 更新进度条和计数
+    eggFoundCount.textContent = foundCount
+    eggProgressFill.style.width = (foundCount / 3 * 100) + '%'
   }
 }); 

@@ -191,6 +191,34 @@
     </div>
   </div>
 
+  <!-- 彩蛋提示组件 -->
+  <div class="egg-hint-container">
+    <div class="egg-hint-icon" id="eggHintIcon">🎁</div>
+    <div class="egg-hint-popup" id="eggHintPopup">
+      <div class="egg-hint-header">
+        <h3>💖 小小彩蛋 💖</h3>
+        <span class="egg-hint-close" id="eggHintClose">×</span>
+      </div>
+      <div class="egg-hint-content">
+        <p>亲爱的周周：</p>
+        <p>这个520页面中隐藏了<strong>3个小彩蛋</strong>，等待你来发现哦~</p>
+        <div class="egg-progress">
+          <div class="egg-progress-title">彩蛋寻宝进度：</div>
+          <div class="egg-progress-track">
+            <div class="egg-progress-fill" id="eggProgressFill"></div>
+          </div>
+          <div class="egg-progress-text"><span id="eggFoundCount">0</span>/3</div>
+        </div>
+        <div class="egg-status">
+          <div class="egg-item" id="eggItem1">彩蛋1<span class="egg-lock">🔒</span><span class="egg-unlock">🎉</span></div>
+          <div class="egg-item" id="eggItem2">彩蛋2<span class="egg-lock">🔒</span><span class="egg-unlock">🎉</span></div>
+          <div class="egg-item" id="eggItem3">彩蛋3<span class="egg-lock">🔒</span><span class="egg-unlock">🎉</span></div>
+        </div>
+        <div class="egg-message" id="eggMessage">探索页面中的各种交互，寻找隐藏的惊喜吧！</div>
+      </div>
+    </div>
+  </div>
+
   <!-- 隐藏彩蛋：点击页脚文字10次显示所有礼物和心愿内容 -->
   <div id="secretContent" class="secret-content">
     <div class="secret-header">
