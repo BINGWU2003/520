@@ -1412,7 +1412,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <p>这一年里，我们走过春夏秋冬，分享过喜怒哀乐。你的坚强勇敢，温柔体贴，聪明可爱，每一面都让我更加爱你。</p>
             <p>一年的时光，足够让我确信，你就是我想要共度余生的人。无论未来道路如何，我都愿意陪你一起走过。</p>
             <p>感谢你出现在我的生命中，让平凡的日子变得闪闪发光。愿我们的爱情历久弥新，永远如初见般美好。</p>
-            <p>520这一天，我想再次告诉你：<strong class="highlight-text">我爱你</strong>！</p>
+            <p>这一天，我想再次告诉你：<strong class="highlight-text">我爱你</strong>！</p>
             <p class="signature">爱你的胡胡</p>
             <p class="egg-hint">累计抽奖30次彩蛋已解锁 ❤️</p>
           </div>
