@@ -301,7 +301,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }).then((result) => {
         if (result.isConfirmed) {
           Swal.fire({
-            title: '要来听周杰伦的《晴天》吗?',
+            title: '要听首歌吗?',
             text: '听点音乐放松一下，减轻备课压力',
             icon: 'question',
             showCancelButton: true,
@@ -410,10 +410,15 @@ document.addEventListener('DOMContentLoaded', function() {
       '要有信心，相信自己，你是最棒的！',
       '你课讲的超级好，加油！',
       '备课辛苦的你，别忘了休息哦！',
-      '每一次的磨课都是进步',
-      '熬夜备课辛苦了，要多喝水',
-      '你的课件真的很棒，非常用心',
-      '你的努力和准备会有回报，加油！'
+      '每一次的磨课都是进步，加油！',
+      '熬夜备课辛苦了，要多喝水，多休息！',
+      '你的努力和准备会有回报，加油！',
+      '加油，你是最棒的！',
+      '加油，你是最棒的！',
+      '加油，你是最棒的！',
+      '加油，你是最棒的！',
+      '加油，你是最棒的！',
+      '加油，你是最棒的！'
     ];
     
     const randomMessage = messages[Math.floor(Math.random() * messages.length)];
