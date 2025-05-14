@@ -185,7 +185,42 @@
     </div>
     <div class="footer">
       <div class="footer-decoration"></div>
-      <p>备课辛苦了 | 520快乐</p>
+      <p id="footerText">备课辛苦了 | 520快乐</p>
+      </div>
+      </div>
+      
+      <!-- 隐藏彩蛋：点击页脚文字10次显示所有礼物和心愿内容 -->
+      <div id="secretContent" class="secret-content">
+        <div class="secret-header">
+          <h2>🎁 神秘彩蛋：所有宝藏内容已解锁 🎁</h2>
+          <button id="closeSecret" class="close-secret">×</button>
+        </div>
+        <div class="secret-tabs">
+          <button class="tab-btn active" data-tab="gifts">所有礼物</button>
+          <button class="tab-btn" data-tab="wishes">所有心愿</button>
+        </div>
+        <div class="secret-content-area">
+          <!-- 礼物列表 -->
+          <div class="tab-content active" id="gifts-content">
+            <div class="gifts-grid"></div>
+          </div>
+          <!-- 心愿列表 -->
+          <div class="tab-content" id="wishes-content">
+            <div class="wishes-categories">
+              <div class="wish-category">
+                <h3>🔥 加油打气</h3>
+                <ul class="encouragement-list"></ul>
+              </div>
+              <div class="wish-category">
+                <h3>💕 关心问候</h3>
+                <ul class="caring-list"></ul>
+              </div>
+              <div class="wish-category">
+                <h3>👏 鼓励肯定</h3>
+                <ul class="affirmation-list"></ul>
+              </div>
+            </div>
+          </div>
     </div>
   </div>
 
