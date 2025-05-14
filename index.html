@@ -149,6 +149,40 @@
       </button>
     </div>
     
+    <!-- 新增心愿纸飞机互动区域 -->
+    <div class="airplane-section card-hover">
+      <h2 class="animate__animated animate__fadeIn">发送心愿纸飞机</h2>
+      <div class="airplane-container">
+        <div class="airplane-animation-area" id="airplaneArea">
+          <!-- 飞机将在这里飞行 -->
+        </div>
+        <div class="airplane-controls">
+          <div class="wish-selection">
+            <button class="wish-btn active" data-wish="加油加油，我永远支持你！">加油打气</button>
+            <button class="wish-btn" data-wish="今晚早点休息，不要熬夜备课啦！">关心问候</button>
+            <button class="wish-btn" data-wish="相信自己，你的课超级棒！">鼓励肯定</button>
+          </div>
+          <button id="sendWishBtn" class="send-wish-btn">
+            <span class="btn-text">发送心愿</span>
+            <span class="btn-icon">✈️</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 新增幸运抽奖区域 -->
+    <div class="lucky-draw card-hover">
+      <h2 class="animate__animated animate__fadeIn">520幸运礼物</h2>
+      <div class="draw-container">
+        <div class="gift-box" id="giftBox">
+          <div class="gift-lid"></div>
+          <div class="gift-box-body"></div>
+          <div class="gift-ribbon"></div>
+        </div>
+        <p>摇一摇手机或点击礼盒，看看今天的幸运礼物是什么？</p>
+        <div class="draw-count">今天还可以抽 <span id="drawRemain">3</span> 次</div>
+      </div>
+    </div>
     <div class="footer">
       <div class="footer-decoration"></div>
       <p>备课辛苦了 | 520快乐</p>
