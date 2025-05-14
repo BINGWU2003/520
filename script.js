@@ -302,6 +302,9 @@ document.addEventListener('DOMContentLoaded', function() {
   // 检查日期
   checkDate();
   
+  // 初始化隐藏彩蛋功能 - 确保此函数被调用
+  initSecretFeature();
+
   // 页面元素淡入动画
   function fadeInElements() {
     const fadeElements = document.querySelectorAll('.card-hover')
@@ -669,7 +672,7 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // 动画结束后移除元素
       setTimeout(() => {
-        heart.remove();
+        heart.remove()
         style.remove()
         styleSheet.remove();
       }, animDuration * 1000);
