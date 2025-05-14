@@ -1437,10 +1437,89 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // 创建多个爱心特效
   function createManyHearts(count) {
-    for (let i = 0; i < count; i++) {
+    // 减少总数量，避免过多DOM元素导致卡顿
+    const safeCount = Math.min(count, 30)
+
+    // 分批次创建心形，每批次的数量更少
+    const batchSize = 5
+    const batches = Math.ceil(safeCount / batchSize)
+
+    for (let b = 0; b < batches; b++) {
       setTimeout(() => {
-        createHearts()
-      }, i * 100)
+        // 每批次创建的心形数量
+        const currentBatchSize = (b === batches - 1 && safeCount % batchSize !== 0)
+          ? safeCount % batchSize
+          : batchSize
+
+        // 创建单次特效，但使用更流畅的参数
+        createBatchHearts(currentBatchSize)
+      }, b * 300) // 批次间隔时间拉长，减轻瞬时压力
+    }
+  }
+
+  // 创建一批爱心
+  function createBatchHearts(amount) {
+    // 创建爱心元素
+    const hearts = []
+    const container = document.querySelector('.container')
+
+    for (let i = 0; i < amount; i++) {
+      const heart = document.createElement('div')
+      heart.className = 'floating-heart optimized'
+
+      // 随机位置和动画参数
+      const left = 10 + Math.random() * 80
+      const animDuration = 3 + Math.random() * 3 // 缩短动画时长
+      const size = 10 + Math.random() * 15 // 略微减小尺寸
+      const opacity = 0.6 + Math.random() * 0.4
+      const delay = Math.random() * 0.5 // 添加随机延迟
+
+      // 随机颜色
+      const colors = [
+        '#e91e63', '#ff6090', '#b0003a', // 主色系
+        '#9c27b0', '#d05ce3', '#6a0080'  // 次级色系
+      ]
+      const randomColor = colors[Math.floor(Math.random() * colors.length)]
+
+      // 设置样式
+      heart.style.left = `${left}%`
+      heart.style.width = `${size}px`
+      heart.style.height = `${size}px`
+      heart.style.opacity = opacity
+      heart.style.backgroundColor = randomColor
+      heart.style.boxShadow = `0 0 5px ${randomColor}40`
+      heart.style.animationDuration = `${animDuration}s`
+      heart.style.animationDelay = `${delay}s`
+
+      // 为伪元素设置样式
+      const randomId = 'heart-' + Math.floor(Math.random() * 10000)
+      heart.id = randomId
+
+      const style = document.createElement('style')
+      style.textContent = `
+        #${randomId}:before, #${randomId}:after {
+          background-color: ${randomColor};
+          width: ${size}px;
+          height: ${size}px;
+        }
+        #${randomId}:before {
+          top: -${size / 2}px;
+        }
+        #${randomId}:after {
+          left: -${size / 2}px;
+        }
+      `
+
+      // 添加到DOM
+      document.head.appendChild(style)
+      container.appendChild(heart)
+      hearts.push({ heart, style })
+
+  // 动画结束后移除元素
+      setTimeout(() => {
+        heart.remove()
+        style.remove()
+      }, (animDuration + delay) * 1000);
     }
   }
 

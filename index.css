@@ -745,7 +745,7 @@ body {
   opacity: 0.8;
   z-index: 10;
   box-shadow: 0 3px 10px rgba(233, 30, 99, 0.2);
-    filter: drop-shadow(0 0 5px rgba(233, 30, 99, 0.3));
+  filter: drop-shadow(0 0 5px rgba(233, 30, 99, 0.3));
 }
 
 .floating-heart:before,
@@ -779,6 +779,50 @@ body {
   }
 }
 
+/* 优化版浮动爱心 */
+.floating-heart.optimized {
+  position: absolute;
+  transform: rotate(45deg);
+  animation: float-up-optimized 4s ease-out forwards;
+  opacity: 0;
+  z-index: 10;
+  will-change: transform, opacity;
+  /* 提示浏览器优化这些属性的变化 */
+  transform-style: preserve-3d;
+  /* 启用GPU加速 */
+  backface-visibility: hidden;
+  /* 进一步优化性能 */
+}
+
+.floating-heart.optimized:before,
+.floating-heart.optimized:after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform;
+  /* 提示浏览器优化性能 */
+  backface-visibility: hidden;
+}
+
+@keyframes float-up-optimized {
+  0% {
+    transform: rotate(45deg) translateY(0);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 0.8;
+  }
+
+  60% {
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: rotate(45deg) translateY(-80vh);
+    opacity: 0;
+  }
+}
 /* 响应式设计 */
 @media (max-width: 768px) {
   .title {
