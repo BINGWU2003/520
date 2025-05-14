@@ -2456,3 +2456,61 @@ body {
   align-items: center;
   justify-content: center;
 }
+/* 全部彩蛋发现的样式 */
+.egg-hint-container.all-found .egg-hint-icon {
+  background: linear-gradient(135deg, #ff6090, #9c27b0);
+  animation: egg-all-found 3s infinite alternate;
+  box-shadow: 0 0 15px rgba(233, 30, 99, 0.6);
+}
+
+@keyframes egg-all-found {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 15px rgba(233, 30, 99, 0.6);
+  }
+
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(156, 39, 176, 0.8);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 15px rgba(233, 30, 99, 0.6);
+  }
+}
+
+.egg-all-found-message {
+  background: linear-gradient(135deg, rgba(233, 30, 99, 0.1), rgba(156, 39, 176, 0.1));
+  border: 1px dashed var(--primary-color);
+  border-radius: 10px;
+  padding: 12px;
+  margin-top: 10px;
+  display: none;
+  animation: fade-in 0.5s ease;
+}
+
+.egg-hint-container.all-found .egg-all-found-message {
+  display: block;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.egg-all-found-message p {
+  margin: 5px 0;
+}
+
+.egg-all-found-message .highlight {
+  font-weight: bold;
+  color: var(--primary-color);
+}

@@ -1916,6 +1916,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const eggItem3 = document.getElementById('eggItem3')
     const eggFoundCount = document.getElementById('eggFoundCount')
     const eggProgressFill = document.getElementById('eggProgressFill')
+    const eggHintContainer = document.getElementById('eggHintContainer')
+    const eggHintIcon = document.getElementById('eggHintIcon')
 
     // 更新彩蛋状态
     if (eggsFound.egg1) eggItem1.classList.add('found')
@@ -1931,5 +1933,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // 更新进度条和计数
     eggFoundCount.textContent = foundCount
     eggProgressFill.style.width = (foundCount / 3 * 100) + '%'
+
+    // 如果找到了所有彩蛋，更新彩蛋图标和提示框样式
+    if (foundCount === 3) {
+      eggHintContainer.classList.add('all-found')
+      if (eggHintIcon.textContent !== '🏆') {
+        eggHintIcon.textContent = '🏆'
+        eggHintIcon.setAttribute('title', '恭喜你发现了所有彩蛋！')
+      }
+    }
   }
+
+  // 初始化隐藏彩蛋功能
+  initSecretFeature()
 }); 
