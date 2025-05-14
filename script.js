@@ -13,6 +13,39 @@ document.addEventListener('DOMContentLoaded', function() {
   // 记录总共抽奖次数
   let totalDraws = parseInt(localStorage.getItem('totalDraws') || '0')
 
+  // 音乐播放器相关元素
+  const prevSongBtn = document.getElementById('prevSong')
+  const nextSongBtn = document.getElementById('nextSong')
+  const songItems = document.querySelectorAll('.song-item')
+  const currentSongTitle = document.getElementById('currentSong')
+
+  // 歌曲列表
+  const songs = [
+    {
+      title: "周杰伦《晴天》",
+      url: "https://cloudshoping-1318477772.cos.ap-nanjing.myqcloud.com/%E5%91%A8%E6%9D%B0%E4%BC%A6%20-%20%E6%99%B4%E5%A4%A9%281%29.mp3"
+    },
+    {
+      title: "周杰伦《七里香》",
+      url: "https://cloudshoping-1318477772.cos.ap-nanjing.myqcloud.com/%E5%91%A8%E6%9D%B0%E4%BC%A6%20-%20%E4%B8%83%E9%87%8C%E9%A6%99.mp3" // 暂时使用相同的链接
+    },
+    {
+      title: "周杰伦《告白气球》",
+      url: "https://cloudshoping-1318477772.cos.ap-nanjing.myqcloud.com/%E5%91%A8%E6%9D%B0%E4%BC%A6%20-%20%E5%91%8A%E7%99%BD%E6%B0%94%E7%90%83.mp3" // 暂时使用相同的链接
+    },
+    {
+      title: "小虎队《爱》",
+      url: "https://cloudshoping-1318477772.cos.ap-nanjing.myqcloud.com/%E5%B0%8F%E8%99%8E%E9%98%9F%20-%20%E7%88%B1.mp3" // 暂时使用相同的链接
+    },
+    {
+      title: "林俊杰《当你》",
+      url: "https://cloudshoping-1318477772.cos.ap-nanjing.myqcloud.com/%E6%9E%97%E4%BF%8A%E6%9D%B0%20-%20%E5%BD%93%E4%BD%A0.mp3" // 暂时使用相同的链接
+    }
+  ]
+
+  // 当前歌曲索引
+  let currentSongIndex = 0;
+
   // 彩蛋状态跟踪
   let eggsFound = {
     egg1: localStorage.getItem('egg1Found') === 'true' || false, // 隐藏菜单彩蛋
@@ -340,6 +373,101 @@ document.addEventListener('DOMContentLoaded', function() {
       playMusic();
     }
   });
+
+  // 上一首歌曲
+  prevSongBtn.addEventListener('click', function () {
+    changeSong(-1)
+  })
+
+  // 下一首歌曲
+  nextSongBtn.addEventListener('click', function () {
+    changeSong(1)
+  })
+
+  // 点击歌曲列表切换歌曲
+  songItems.forEach(item => {
+    item.addEventListener('click', function () {
+      const songIndex = parseInt(this.getAttribute('data-index'))
+      if (songIndex !== currentSongIndex) {
+        setActiveSong(songIndex)
+        loadAndPlaySong()
+      }
+    })
+  })
+
+  // 切换歌曲
+  function changeSong(direction) {
+    // 暂停当前音乐
+    bgMusic.pause()
+
+    // 计算新的索引
+    currentSongIndex = (currentSongIndex + direction + songs.length) % songs.length
+
+    // 更新激活的歌曲
+    setActiveSong(currentSongIndex)
+
+    // 加载并播放新歌曲
+    loadAndPlaySong()
+  }
+
+  // 设置当前激活的歌曲
+  function setActiveSong(index) {
+    // 更新当前索引
+    currentSongIndex = index
+
+    // 更新歌曲标题
+    currentSongTitle.textContent = songs[index].title
+
+    // 更新激活的歌曲项
+    songItems.forEach(item => {
+      item.classList.remove('active')
+      if (parseInt(item.getAttribute('data-index')) === index) {
+        item.classList.add('active')
+      }
+    })
+  }
+
+  // 加载并播放歌曲
+  function loadAndPlaySong() {
+    // 设置新的音乐源
+    bgMusic.src = songs[currentSongIndex].url
+
+    // 如果原来是播放状态，则继续播放新歌曲
+    if (isMusicPlaying) {
+      bgMusic.play()
+        .then(() => {
+          // 添加音符动画效果
+          animateMusicNotes()
+        })
+        .catch(error => {
+          console.error('音乐播放失败:', error)
+          isMusicPlaying = false
+          musicToggle.querySelector('.btn-text').textContent = '播放音乐'
+        })
+    } else {
+      // 如果原来是暂停状态，则更新按钮文本但不自动播放
+      musicToggle.querySelector('.btn-text').textContent = '播放音乐'
+    }
+
+    // 显示切换歌曲提示
+    showSongChangeToast()
+  }
+
+  // 显示切换歌曲提示
+  function showSongChangeToast() {
+    const toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true
+    })
+
+    toast.fire({
+      icon: 'success',
+      title: `🎵 已切换到 ${songs[currentSongIndex].title}`
+    })
+  }
 
   // 播放音乐函数
   function playMusic() {
