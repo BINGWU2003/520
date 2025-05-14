@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const currentDateElement = document.getElementById('currentDate');
   const container = document.querySelector('.container');
   const pageLoader = document.getElementById('pageLoader')
+  // 记录总共抽奖次数
+  let totalDraws = parseInt(localStorage.getItem('totalDraws') || '0')
 
   // 礼物列表
   const gifts = [
@@ -1365,6 +1367,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const giftBox = document.getElementById('giftBox')
     giftBox.appendChild(giftItem)
 
+    // 增加总抽奖次数记录
+    totalDraws++
+    localStorage.setItem('totalDraws', totalDraws.toString())
+
+    // 检查是否达到30次
+    if (totalDraws === 30) {
+      setTimeout(() => {
+        showLoveLetter()
+      }, 2000)
+    }
+
     // 显示礼物弹窗
     setTimeout(() => {
       Swal.fire({
@@ -1385,10 +1398,53 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 1500)
   }
 
-  // 初始化隐藏彩蛋功能
-  initSecretFeature()
+  // 显示一周年情书彩蛋
+  function showLoveLetter() {
+    Swal.fire({
+      title: '❤️ 给最爱的你 ❤️',
+      html: `
+        <div class="love-letter-egg">
+          <div class="corner-decoration"></div>
+          <div class="letter-content-egg">
+            <p>亲爱的<span class="her-name">周周</span>：</p>
+            <p>时光飞逝，转眼间我们已经相处了一年。回首这段时光，每一个瞬间都珍贵无比。</p>
+            <p>记得初次见面的紧张，第一次牵手的心跳，以及每一次你笑起来的样子，都让我深深着迷。</p>
+            <p>这一年里，我们走过春夏秋冬，分享过喜怒哀乐。你的坚强勇敢，温柔体贴，聪明可爱，每一面都让我更加爱你。</p>
+            <p>一年的时光，足够让我确信，你就是我想要共度余生的人。无论未来道路如何，我都愿意陪你一起走过。</p>
+            <p>感谢你出现在我的生命中，让平凡的日子变得闪闪发光。愿我们的爱情历久弥新，永远如初见般美好。</p>
+            <p>520这一天，我想再次告诉你：<strong class="highlight-text">我爱你</strong>！</p>
+            <p class="signature">爱你的胡胡</p>
+            <p class="egg-hint">累计抽奖30次彩蛋已解锁 ❤️</p>
+          </div>
+        </div>
+      `,
+      width: 800,
+      background: 'rgba(255, 255, 255, 0.95)',
+      backdrop: `rgba(233, 30, 99, 0.4)`,
+      showConfirmButton: true,
+      confirmButtonText: '我也爱你',
+      confirmButtonColor: '#e91e63',
+      showClass: {
+        popup: 'animate__animated animate__fadeIn'
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // 点击确认按钮后触发爱心特效
+        createManyHearts(50)
+      }
+    })
+  }
 
-  // 隐藏彩蛋功能初始化
+  // 创建多个爱心特效
+  function createManyHearts(count) {
+    for (let i = 0; i < count; i++) {
+      setTimeout(() => {
+        createHearts()
+      }, i * 100)
+    }
+  }
+
+  // 初始化隐藏彩蛋功能
   function initSecretFeature() {
     const footerText = document.getElementById('footerText')
     const secretContent = document.getElementById('secretContent')
