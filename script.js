@@ -1091,7 +1091,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 创建纸飞机元素
     const airplane = document.createElement('div')
     airplane.className = 'paper-airplane'
-    airplane.textContent = '✈️'
+    airplane.innerHTML = '<i class="fa-solid fa-paper-plane"></i>'
 
     // 创建消息气泡
     const bubble = document.createElement('div')

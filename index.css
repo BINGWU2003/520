@@ -1559,7 +1559,26 @@ body {
     overflow: hidden;
     z-index: 1;
   }
-
+  
+    .send-wish-btn .btn-icon {
+      margin-left: 8px;
+      display: inline-block;
+      transition: transform 0.3s ease;
+    }
+  
+    .send-wish-btn:hover .btn-icon {
+      animation: send-btn-plane 0.5s ease infinite alternate;
+    }
+  
+    @keyframes send-btn-plane {
+      0% {
+        transform: translateX(0) translateY(0);
+      }
+  
+      100% {
+        transform: translateX(3px) translateY(-3px);
+      }
+    }
   .send-wish-btn::before {
     content: '';
     position: absolute;
@@ -1589,10 +1608,27 @@ body {
   /* 纸飞机动画 */
   .paper-airplane {
     position: absolute;
-    font-size: 24px;
+    font-size: 28px;
     z-index: 2;
     transform-origin: center;
     filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.2));
+    color: var(--secondary-color);
+    }
+    
+    .paper-airplane i {
+      display: inline-block;
+      transform-origin: center;
+      animation: paper-plane-wobble 1s ease-in-out infinite alternate;
+    }
+    
+    @keyframes paper-plane-wobble {
+      0% {
+        transform: rotate(0deg);
+      }
+    
+      100% {
+        transform: rotate(5deg);
+      }
   }
 
   /* 飞机飞行的动画 */
