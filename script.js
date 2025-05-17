@@ -1,14 +1,14 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   // 全局变量
   let loveCount = parseInt(localStorage.getItem('loveCount') || '0') // 从本地缓存读取加油次数
-  let isMusicPlaying = false;
-  const bgMusic = document.getElementById('bgMusic');
-  const musicToggle = document.getElementById('musicToggle');
-  const loveButton = document.getElementById('loveButton');
-  const countElement = document.getElementById('count');
-  const lockScreen = document.getElementById('lockScreen');
-  const currentDateElement = document.getElementById('currentDate');
-  const container = document.querySelector('.container');
+  let isMusicPlaying = false
+  const bgMusic = document.getElementById('bgMusic')
+  const musicToggle = document.getElementById('musicToggle')
+  const loveButton = document.getElementById('loveButton')
+  const countElement = document.getElementById('count')
+  const lockScreen = document.getElementById('lockScreen')
+  const currentDateElement = document.getElementById('currentDate')
+  const container = document.querySelector('.container')
   const pageLoader = document.getElementById('pageLoader')
   // 记录总共抽奖次数
   let totalDraws = parseInt(localStorage.getItem('totalDraws') || '0')
@@ -23,35 +23,51 @@ document.addEventListener('DOMContentLoaded', function() {
   const songs = [
     {
       title: "周杰伦《晴天》",
-      url: "https://cloudshoping-1318477772.cos.ap-nanjing.myqcloud.com/%E5%91%A8%E6%9D%B0%E4%BC%A6%20-%20%E6%99%B4%E5%A4%A9%281%29.mp3"
+      url: "https://cloudshoping-1318477772.cos.ap-nanjing.myqcloud.com/%E5%91%A8%E6%9D%B0%E4%BC%A6%20-%20%E6%99%B4%E5%A4%A9%281%29.mp3",
     },
     {
       title: "周杰伦《七里香》",
-      url: "https://cloudshoping-1318477772.cos.ap-nanjing.myqcloud.com/%E5%91%A8%E6%9D%B0%E4%BC%A6%20-%20%E4%B8%83%E9%87%8C%E9%A6%99.mp3" // 暂时使用相同的链接
+      url: "https://cloudshoping-1318477772.cos.ap-nanjing.myqcloud.com/%E5%91%A8%E6%9D%B0%E4%BC%A6%20-%20%E4%B8%83%E9%87%8C%E9%A6%99.mp3",
     },
     {
       title: "周杰伦《告白气球》",
-      url: "https://cloudshoping-1318477772.cos.ap-nanjing.myqcloud.com/%E5%91%A8%E6%9D%B0%E4%BC%A6%20-%20%E5%91%8A%E7%99%BD%E6%B0%94%E7%90%83.mp3" // 暂时使用相同的链接
+      url: "https://cloudshoping-1318477772.cos.ap-nanjing.myqcloud.com/%E5%91%A8%E6%9D%B0%E4%BC%A6%20-%20%E5%91%8A%E7%99%BD%E6%B0%94%E7%90%83.mp3",
     },
     {
       title: "小虎队《爱》",
-      url: "https://cloudshoping-1318477772.cos.ap-nanjing.myqcloud.com/%E5%B0%8F%E8%99%8E%E9%98%9F%20-%20%E7%88%B1.mp3" // 暂时使用相同的链接
+      url: "https://cloudshoping-1318477772.cos.ap-nanjing.myqcloud.com/%E5%B0%8F%E8%99%8E%E9%98%9F%20-%20%E7%88%B1.mp3",
     },
     {
       title: "林俊杰《当你》",
-      url: "https://cloudshoping-1318477772.cos.ap-nanjing.myqcloud.com/%E6%9E%97%E4%BF%8A%E6%9D%B0%20-%20%E5%BD%93%E4%BD%A0.mp3" // 暂时使用相同的链接
-    }
+      url: "https://cloudshoping-1318477772.cos.ap-nanjing.myqcloud.com/%E6%9E%97%E4%BF%8A%E6%9D%B0%20-%20%E5%BD%93%E4%BD%A0.mp3",
+    },
+    {
+      title: "十个勤天《我成为我的同时》",
+      url: "https://cloudshoping-1318477772.cos.ap-nanjing.myqcloud.com/music/%E5%8D%81%E4%B8%AA%E5%8B%A4%E5%A4%A9%20-%20%E6%88%91%E6%88%90%E4%B8%BA%E6%88%91%E7%9A%84%E5%90%8C%E6%97%B6.mp3",
+    },
+    {
+      title: "十个勤天《后院里的夏天》",
+      url: "https://cloudshoping-1318477772.cos.ap-nanjing.myqcloud.com/music/%E5%8D%81%E4%B8%AA%E5%8B%A4%E5%A4%A9%20-%20%E5%90%8E%E9%99%A1%E9%97%A8%E7%9A%84%E5%A4%8F.mp3",
+    },
+    {
+      title: "十个勤天《少年归来》",
+      url: "https://cloudshoping-1318477772.cos.ap-nanjing.myqcloud.com/music/%E5%8D%81%E4%B8%AA%E5%8B%A4%E5%A4%A9%20-%20%E5%B0%91%E5%B9%B4%E5%BD%92%E6%9D%A5.mp3",
+    },
+    {
+      title: "十个勤天《麦芒》",
+      url: "https://cloudshoping-1318477772.cos.ap-nanjing.myqcloud.com/music/%E5%8D%81%E4%B8%AA%E5%8B%A4%E5%A4%A9%20-%20%E9%BA%A6%E8%8A%92.mp3",
+    },
   ]
 
   // 当前歌曲索引
-  let currentSongIndex = 0;
+  let currentSongIndex = 0
 
   // 彩蛋状态跟踪
   let eggsFound = {
     egg1: localStorage.getItem('egg1Found') === 'true' || false, // 隐藏菜单彩蛋
     egg2: localStorage.getItem('egg2Found') === 'true' || false, // 调戏用户彩蛋
     egg3: localStorage.getItem('egg3Found') === 'true' || false  // 情书彩蛋
-  };
+  }
 
   // 礼物列表
   const gifts = [
@@ -321,7 +337,7 @@ document.addEventListener('DOMContentLoaded', function() {
       '你是学生心中的偶像！',
       '你是教育事业的栋梁！'
     ]
-  };
+  }
 
   // 页面加载完成后隐藏加载指示器
   window.addEventListener('load', function () {
@@ -331,19 +347,19 @@ document.addEventListener('DOMContentLoaded', function() {
   })
 
   // 添加页面加载动画
-  fadeInElements();
+  fadeInElements()
 
   // 防止双击缩放
-  preventZoom();
+  preventZoom()
 
   // 初始化显示计数
-  countElement.textContent = loveCount;
+  countElement.textContent = loveCount
 
   // 检查日期
-  checkDate();
-  
+  checkDate()
+
   // 初始化隐藏彩蛋功能 - 确保此函数被调用
-  initSecretFeature();
+  initSecretFeature()
 
   // 页面元素淡入动画
   function fadeInElements() {
@@ -362,17 +378,17 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // 音乐播放控制
-  musicToggle.addEventListener('click', function() {
+  musicToggle.addEventListener('click', function () {
     if (isMusicPlaying) {
-      bgMusic.pause();
-      musicToggle.querySelector('.btn-text').textContent = '播放音乐';
-      isMusicPlaying = false;
+      bgMusic.pause()
+      musicToggle.querySelector('.btn-text').textContent = '播放音乐'
+      isMusicPlaying = false
       // 移除所有浮动音符
-      document.querySelectorAll('.floating-note').forEach(note => note.remove());
+      document.querySelectorAll('.floating-note').forEach(note => note.remove())
     } else {
-      playMusic();
+      playMusic()
     }
-  });
+  })
 
   // 上一首歌曲
   prevSongBtn.addEventListener('click', function () {
@@ -484,10 +500,10 @@ document.addEventListener('DOMContentLoaded', function() {
     bgMusic.play()
       .then(() => {
         musicToggle.querySelector('.btn-text').textContent = '暂停音乐'
-        isMusicPlaying = true;
+        isMusicPlaying = true
 
         // 添加音符动画效果
-        animateMusicNotes();
+        animateMusicNotes()
       })
       .catch(error => {
         console.error('音乐播放失败:', error)
@@ -512,7 +528,7 @@ document.addEventListener('DOMContentLoaded', function() {
       return false
     }
   }
-  
+
   // 添加音符动画
   function animateMusicNotes() {
     const musicPlayer = document.querySelector('.music-player')
@@ -547,20 +563,20 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // 爱心点击事件
-  loveButton.addEventListener('click', function() {
-    loveCount++;
-    countElement.textContent = loveCount;
+  loveButton.addEventListener('click', function () {
+    loveCount++
+    countElement.textContent = loveCount
     // 保存到本地缓存
-    localStorage.setItem('loveCount', loveCount.toString());
-    createHearts();
-    
+    localStorage.setItem('loveCount', loveCount.toString())
+    createHearts()
+
     if (loveCount % 5 === 0) {
-      showEncourageMessage();
+      showEncourageMessage()
     }
-    
+
     // 让主爱心跳动更明显
-    const mainHeart = document.getElementById('main-heart');
-    mainHeart.classList.add('love-pulse');
+    const mainHeart = document.getElementById('main-heart')
+    mainHeart.classList.add('love-pulse')
 
     // 添加闪光特效
     const sparkles = document.querySelectorAll('.sparkle')
@@ -569,55 +585,55 @@ document.addEventListener('DOMContentLoaded', function() {
       setTimeout(() => {
         sparkle.style.animation = ''
       }, 10)
-    });
+    })
 
     setTimeout(() => {
-      mainHeart.classList.remove('love-pulse');
-    }, 1000);
-  });
+      mainHeart.classList.remove('love-pulse')
+    }, 1000)
+  })
 
   // 防止双击缩放
   function preventZoom() {
     // 禁用双指缩放
     document.addEventListener('gesturestart', function (e) {
       e.preventDefault()
-    });
+    })
 
     // 禁用双击缩放
     let lastTouchEnd = 0
     document.addEventListener('touchend', function (e) {
-      const now = Date.now();
+      const now = Date.now()
       if (now - lastTouchEnd <= 300) {
-        e.preventDefault();
+        e.preventDefault()
       }
       lastTouchEnd = now
-    }, false);
+    }, false)
 
     // 防止iOS double-tap-to-zoom
     document.addEventListener('touchstart', function (event) {
       if (event.touches.length > 1) {
-        event.preventDefault();
+        event.preventDefault()
       }
-    }, { passive: false });
+    }, { passive: false })
   }
 
   // 检查日期函数
   function checkDate() {
     const now = new Date()
-    const formattedDate = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日`;
-    currentDateElement.textContent = formattedDate;
+    const formattedDate = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日`
+    currentDateElement.textContent = formattedDate
 
     // 检查是否是5月20日
     const is520 = (now.getMonth() === 4 && now.getDate() === 20) // 月份从0开始，所以5月是4
 
     // 添加调试选项 - 在URL中添加?debug=1可以绕过日期检查（方便测试）
-    const urlParams = new URLSearchParams(window.location.search);
-    const isDebug = urlParams.get('debug') === '1';
+    const urlParams = new URLSearchParams(window.location.search)
+    const isDebug = urlParams.get('debug') === '1'
 
     if (is520 || isDebug) {
       // 如果是520或处于调试模式，显示页面内容
-      lockScreen.style.display = 'none';
-      container.classList.remove('hidden');
+      lockScreen.style.display = 'none'
+      container.classList.remove('hidden')
 
       // 如果是真正的520（非调试模式），展示特殊的欢迎信息
       if (is520) {
@@ -639,21 +655,21 @@ document.addEventListener('DOMContentLoaded', function() {
               popup: '',
               backdrop: ''
             }
-          });
-        }, 800);
+          })
+        }, 800)
       }
 
       // 初始化页面
-      initPage();
+      initPage()
     } else {
       // 如果不是520，隐藏页面内容
-      lockScreen.style.display = 'flex';
-      container.classList.add('hidden');
+      lockScreen.style.display = 'flex'
+      container.classList.add('hidden')
 
       // 更新倒计时
       updateCountdown()
       // 开始倒计时定时器
-      setInterval(updateCountdown, 1000);
+      setInterval(updateCountdown, 1000)
     }
   }
 
@@ -728,27 +744,27 @@ document.addEventListener('DOMContentLoaded', function() {
             }
           }).then((result) => {
             if (result.isConfirmed) {
-              playMusic();
+              playMusic()
             }
-          });
+          })
         }
-      });
-    }, 1000);
+      })
+    }, 1000)
   }
 
   // 创建爱心动画
   function createHearts() {
-    const container = document.querySelector('.container');
-    const heartCount = 5 + Math.floor(Math.random() * 5);
-    
+    const container = document.querySelector('.container')
+    const heartCount = 5 + Math.floor(Math.random() * 5)
+
     for (let i = 0; i < heartCount; i++) {
-      const heart = document.createElement('div');
-      heart.className = 'floating-heart';
-      
+      const heart = document.createElement('div')
+      heart.className = 'floating-heart'
+
       // 随机位置和动画延迟
-      const left = 10 + Math.random() * 80; // 百分比位置
-      const animDuration = 3 + Math.random() * 4; // 动画时长
-      const size = 10 + Math.random() * 20; // 爱心大小
+      const left = 10 + Math.random() * 80 // 百分比位置
+      const animDuration = 3 + Math.random() * 4 // 动画时长
+      const size = 10 + Math.random() * 20 // 爱心大小
       const opacity = 0.5 + Math.random() * 0.5
 
       // 随机旋转和位置偏移
@@ -781,11 +797,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
       const styleSheet = document.createElement('style')
       styleSheet.textContent = customAnimation
-      document.head.appendChild(styleSheet);
-      
-      heart.style.left = `${left}%`;
-      heart.style.width = `${size}px`;
-      heart.style.height = `${size}px`;
+      document.head.appendChild(styleSheet)
+
+      heart.style.left = `${left}%`
+      heart.style.width = `${size}px`
+      heart.style.height = `${size}px`
       heart.style.animation = `float-custom-${i} ${animDuration}s ease-out forwards`
       heart.style.backgroundColor = randomColor
       heart.style.boxShadow = `0 0 10px ${randomColor}40`
@@ -800,20 +816,20 @@ document.addEventListener('DOMContentLoaded', function() {
           background-color: ${randomColor};
           box-shadow: 0 0 10px ${randomColor}40;
         }
-      `;
-      
-      document.head.appendChild(style);
-      container.appendChild(heart);
-      
+      `
+
+      document.head.appendChild(style)
+      container.appendChild(heart)
+
       // 动画结束后移除元素
       setTimeout(() => {
         heart.remove()
         style.remove()
-        styleSheet.remove();
-      }, animDuration * 1000);
+        styleSheet.remove()
+      }, animDuration * 1000)
     }
   }
-  
+
   // 显示鼓励消息
   function showEncourageMessage() {
     const messages = [
@@ -829,10 +845,10 @@ document.addEventListener('DOMContentLoaded', function() {
       '加油，你是最棒的！',
       '加油，你是最棒的！',
       '加油，你是最棒的！'
-    ];
-    
-    const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-    
+    ]
+
+    const randomMessage = messages[Math.floor(Math.random() * messages.length)]
+
     Swal.fire({
       title: '❤️ 备课加油 ❤️',
       text: randomMessage,
@@ -847,7 +863,7 @@ document.addEventListener('DOMContentLoaded', function() {
         popup: '',
         backdrop: ''
       }
-    });
+    })
   }
 
   // 纸飞机功能相关变量和元素
@@ -1167,13 +1183,13 @@ document.addEventListener('DOMContentLoaded', function() {
   // 初始化抽奖功能
   function initLuckyDraw() {
     const giftBox = document.getElementById('giftBox')
-    const drawRemain = document.getElementById('drawRemain');
+    const drawRemain = document.getElementById('drawRemain')
 
     // 从本地存储获取剩余抽奖次数
-    let remainDraws = parseInt(localStorage.getItem('remainDraws') || '3');
+    let remainDraws = parseInt(localStorage.getItem('remainDraws') || '3')
     // 从本地存储获取上次抽奖日期
     const lastDrawDate = localStorage.getItem('lastDrawDate')
-    const today = new Date().toDateString();
+    const today = new Date().toDateString()
 
     // 调戏用户相关变量
     let emptyClickCount = 0 // 抽奖次数为0时的点击次数
@@ -1185,11 +1201,11 @@ document.addEventListener('DOMContentLoaded', function() {
       hasBeenTeased = false
       localStorage.setItem('lastDrawDate', today)
       localStorage.setItem('remainDraws', remainDraws.toString())
-      localStorage.setItem('hasBeenTeased', 'false');
+      localStorage.setItem('hasBeenTeased', 'false')
     }
 
     // 更新显示
-    drawRemain.textContent = remainDraws.toString();
+    drawRemain.textContent = remainDraws.toString()
 
     // 礼盒点击事件
     giftBox.addEventListener('click', function () {
@@ -1222,55 +1238,55 @@ document.addEventListener('DOMContentLoaded', function() {
           icon: 'info',
           confirmButtonColor: '#9c27b0'
         })
-        return;
+        return
       }
 
       // 如果礼盒正在动画中，不响应点击
       if (this.classList.contains('open') || this.classList.contains('shaking')) {
-        return;
+        return
       }
 
       // 播放礼盒抖动动画
-      this.classList.add('shaking');
+      this.classList.add('shaking')
 
       setTimeout(() => {
         // 移除抖动类
-        this.classList.remove('shaking');
+        this.classList.remove('shaking')
         // 添加打开类
-        this.classList.add('open');
+        this.classList.add('open')
 
         // 抽奖并显示结果
-        openGiftBox();
+        openGiftBox()
 
         // 减少抽奖次数
         remainDraws--
         localStorage.setItem('remainDraws', remainDraws.toString())
-        drawRemain.textContent = remainDraws.toString();
+        drawRemain.textContent = remainDraws.toString()
 
         // 3秒后关闭礼盒
         setTimeout(() => {
           giftBox.classList.remove('open')
         }, 3000)
       }, 500)
-    });
+    })
 
     // 初始化设备摇动检测
     if (window.DeviceMotionEvent) {
       let shakeThreshold = 15 // 摇动阈值
       let lastX = 0, lastY = 0, lastZ = 0
-      let lastShakeTime = 0;
+      let lastShakeTime = 0
 
       window.addEventListener('devicemotion', function (event) {
-        const now = Date.now();
+        const now = Date.now()
         // 限制摇动响应频率（至少间隔1秒）
-        if (now - lastShakeTime < 1000) return;
+        if (now - lastShakeTime < 1000) return
 
         const acceleration = event.accelerationIncludingGravity
-        if (!acceleration) return;
+        if (!acceleration) return
 
         const x = acceleration.x
         const y = acceleration.y
-        const z = acceleration.z;
+        const z = acceleration.z
 
         // 计算摇动幅度
         const deltaX = Math.abs(x - lastX)
@@ -1281,7 +1297,7 @@ document.addEventListener('DOMContentLoaded', function() {
           (deltaX > shakeThreshold && deltaZ > shakeThreshold) ||
           (deltaY > shakeThreshold && deltaZ > shakeThreshold)) {
 
-          lastShakeTime = now;
+          lastShakeTime = now
           // 模拟点击礼盒
           giftBox.click()
         }
@@ -1667,11 +1683,11 @@ document.addEventListener('DOMContentLoaded', function() {
       container.appendChild(heart)
       hearts.push({ heart, style })
 
-  // 动画结束后移除元素
+      // 动画结束后移除元素
       setTimeout(() => {
         heart.remove()
         style.remove()
-      }, (animDuration + delay) * 1000);
+      }, (animDuration + delay) * 1000)
     }
   }
 
@@ -1946,4 +1962,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // 初始化隐藏彩蛋功能
   initSecretFeature()
-}); 
+}) 
