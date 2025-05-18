@@ -797,6 +797,206 @@ body {
   font-weight: bold;
   box-shadow: 0 3px 10px rgba(156, 39, 176, 0.3);
 }
+/* 留言墙跳转区域样式 */
+.message-wall-section {
+  background-color: var(--card-bg);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: var(--card-shadow);
+  margin-bottom: 40px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: transform var(--animation-slow) ease, box-shadow var(--animation-slow) ease;
+}
+
+.message-wall-section:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.message-wall-section h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: var(--secondary-color);
+  font-size: 2rem;
+  position: relative;
+  display: inline-block;
+  left: 50%;
+  transform: translateX(-50%);
+  padding-bottom: 10px;
+}
+
+.message-wall-section h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(to right, var(--primary-light), var(--secondary-light));
+  border-radius: 3px;
+}
+
+.message-wall-content {
+  position: relative;
+  text-align: center;
+  padding: 15px 10px;
+}
+
+.message-wall-content p {
+  font-size: 1.15rem;
+  margin-bottom: 25px;
+  line-height: 1.6;
+  color: var(--text-on-light);
+}
+
+.message-wall-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+  color: var(--text-on-dark);
+  border: none;
+  border-radius: 50px;
+  padding: 14px 32px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.message-wall-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.7s ease;
+}
+
+.message-wall-btn:hover::before {
+  left: 100%;
+}
+
+.message-wall-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.message-wall-btn:active {
+  transform: translateY(0);
+}
+
+.message-wall-btn .btn-icon {
+  margin-left: 10px;
+  font-size: 1.2rem;
+  animation: message-icon-float 2s ease-in-out infinite;
+}
+
+@keyframes message-icon-float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.message-decorations {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.message-decoration {
+  position: absolute;
+  font-size: 1.8rem;
+  opacity: 0.5;
+  animation: float-decoration 6s ease-in-out infinite;
+}
+
+.message-decoration-1 {
+  top: 20%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.message-decoration-2 {
+  top: 60%;
+  right: 15%;
+  animation-delay: 1s;
+}
+
+.message-decoration-3 {
+  bottom: 15%;
+  left: 20%;
+  animation-delay: 2s;
+}
+
+@keyframes float-decoration {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-10px) rotate(5deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .message-wall-section h2 {
+    font-size: 1.8rem;
+  }
+
+  .message-wall-content p {
+    font-size: 1rem;
+  }
+
+  .message-wall-btn {
+    padding: 12px 25px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .message-wall-section {
+    padding: 20px 15px;
+  }
+
+  .message-wall-section h2 {
+    font-size: 1.6rem;
+  }
+
+  .message-wall-content p {
+    font-size: 0.95rem;
+  }
+
+  .message-wall-btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+
+  .message-decoration {
+    font-size: 1.5rem;
+  }
+}
 /* 页脚样式 */
 .footer {
   text-align: center;
